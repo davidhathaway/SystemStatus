@@ -1,0 +1,73 @@
+﻿@model AppDrilldownViewModel
+
+<div class="modal fade" id="app-drilldown-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">App Drilldown - @Model.Name</h4>
+            </div>
+            <div class="modal-body" id="app-drilldown-modal-body">
+
+                @using (Html.BeginRouteForm("DefaultApiWithAction", new { controller = "AppEventHook", action = "DrillDown", httproute = "true" }, FormMethod.Post, new { @class = "form", id = "app-drilldown-form" }))
+                {
+                    <fieldset>
+                        <legend>App Drilldown - Form</legend>
+                        @Html.HiddenFor(m => m.AppID)
+                        @Html.HiddenFor(m => m.Name)
+                        @Html.HiddenFor(m => m.Description)
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(m => m.SelectedAppEventHook)
+                                @Html.DropDownListFor(m => m.SelectedAppEventHook, Model.AppEventHooks.Select(h => new SelectListItem() { Text = h.Value, Value = h.Key.ToString() }).ToList(), new { @class = "form-control", id = "app-drilldown-eventHook" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="app-drilldown-chart" style="height:300px;width:100%;"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="height:300px;overflow:auto;">
+                                    <table class="table table-condensed" id="app-drilldown-table">
+                                        <thead>
+                                            <tr>
+                                                <td>
+                                                    Time
+                                                </td>
+                                                <td>
+                                                    Message
+                                                </td>
+                                                <td>
+                                                    Status
+                                                </td>
+                                                <td>
+                                                    Value
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody data-bind="template: { name: 'app-drilldown-row', foreach: AppEvents }"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/html" id="app-drilldown-row">
+    <tr>
+        <td><span data-bind="text: EventTime"></span></td>
+        <td><span data-bind="text: Message"></span></td>
+        <td><span data-bind="text: AppStatusText"></span></td>
+        <td><span data-bind="text: Value"></span></td>
+    </tr>
+</script>

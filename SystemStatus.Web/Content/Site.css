@@ -1,0 +1,173 @@
+﻿.container {
+    max-width: 100%;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+legend{
+    display:none;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top:20px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.app-list
+{
+    list-style:none;
+    margin:0;
+    padding:0;
+   
+}
+
+.app-item
+{
+    /*border:1px solid #808080;*/
+    margin-top:20px;
+    display:inline-block;
+ 
+    float:left;
+    width: 16.666666666666664%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.app-item-inner {
+    padding: 15px;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    min-height: 150px;
+    position:relative;
+}
+
+.app-item-inner h4{
+    margin:0;
+    display:inline-block;
+    vertical-align: middle;
+    color:white;
+}
+
+.app-item-description
+{
+    font-size:x-small;
+    color:white;
+}
+
+.app-item-status
+{
+    display: block;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    padding:5px;
+    width:100%;
+}
+
+.add-app-button
+{
+    width:100%;
+}
+
+.app-item-status small{
+    color: white;
+    font-style: italic;
+}
+
+.app-status-error
+{
+    background-color: #ECF0F1;
+}
+.app-status-error-text{
+    background-color: #BDC3C7;
+}
+
+
+
+
+.app-status-fast{
+    background-color: #2ECC71;
+}
+.app-status-fast-text{
+    background-color: #27AE60;
+}
+
+.app-status-normal{
+     background-color: #3498DB;
+}
+.app-status-normal-text{
+    background-color: #2980B9;
+}
+
+.app-status-slow{
+     background-color: #F1C40F;
+}
+.app-status-slow-text{
+    background-color: #F39C12;
+}
+
+.app-status-none{
+     background-color: #E74C3C;
+}
+.app-status-none-text{
+    background-color: #C0392B;
+}
+
+
+@media (min-width: 1200px) 
+{
+     .app-item {
+    width: 25%; /*span3*/
+  }
+
+}
+
+@media (min-width: 992px) and (max-width: 1199px) 
+{
+  .app-item {
+    width: 25%; /*span3*/
+  }
+
+
+}
+
+@media (min-width: 768px) and (max-width: 991px) 
+{
+    .app-item {
+        width: 33.33333333333333%; /*span4*/
+    } 
+
+
+}
+
+@media (min-width: 501px) and (max-width: 767px) 
+{
+
+    .app-item {
+        width: 50%; /*span6*/
+    }
+
+}
+
+@media(max-width: 500px) 
+{
+    .app-item {
+        width:100%; /*span12*/
+    }
+
+
+}

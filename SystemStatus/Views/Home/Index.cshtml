@@ -1,0 +1,55 @@
+﻿@model List<AppStatusViewModel>
+
+@{
+    ViewBag.Title = "System Status";
+    var columnCount = 4;
+    var columnClass = "col-md-3";
+    var rowIndex = 0;
+    var modelTable = new Dictionary<int, List<AppStatusViewModel>>();
+    for (int i = 0; i < Model.Count; i++)
+    {
+        if (i == 0 || (i % columnCount) == 0)
+        {
+            rowIndex++;
+            modelTable.Add(rowIndex, new List<AppStatusViewModel>());
+        }
+        modelTable[rowIndex].Add(Model[i]);
+    }
+}
+
+
+
+@foreach (var row in modelTable)
+{
+    <div class="row">
+        @foreach (var col in row.Value)
+        {
+            var colStatusClass = "app-status-error";
+  
+            switch (col.LastAppStatus)
+            {
+                case SystemStatus.Domain.AppStatus.Fast:
+                    colStatusClass = "app-status-fast";
+                    break;
+                case SystemStatus.Domain.AppStatus.Normal:
+                    colStatusClass = "app-status-normal";
+                    break;
+                case SystemStatus.Domain.AppStatus.Slow:
+                    colStatusClass = "app-status-slow";
+                    break;
+                case SystemStatus.Domain.AppStatus.None:
+                    colStatusClass = "app-status-none";
+                    break;
+            }
+
+            var colStatusTextClass = colStatusClass + "-text";
+
+            <div class="app-item @columnClass">
+                <div class="app-item-inner @colStatusClass" data-id="@col.AppID">
+                    <h1>@col.Name</h1>
+                    <span class="app-item-status @colStatusTextClass"><small>@Enum.GetName(typeof(AppStatus), col.LastAppStatus)</small></span>
+                </div>
+            </div>
+        }
+    </div>
+}

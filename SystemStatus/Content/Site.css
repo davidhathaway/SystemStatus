@@ -1,0 +1,98 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top:20px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+.app-item
+{
+    /*border:1px solid #808080;*/
+    margin-top:20px;
+}
+
+.app-item-inner {
+    padding: 15px;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    min-height: 150px;
+    position:relative;
+}
+
+.app-item-inner h1{
+    margin:0;
+    display:inline-block;
+    vertical-align: middle;
+    color:white;
+}
+
+.app-item-status
+{
+    display: block;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    padding:5px;
+    width:100%;
+}
+
+.app-item-status small{
+    color: white;
+    font-style: italic;
+}
+
+.app-status-error
+{
+    background-color: #ECF0F1;
+}
+.app-status-error-text{
+    background-color: #BDC3C7;
+}
+
+.app-status-fast{
+    background-color: #2ECC71;
+}
+.app-status-fast-text{
+    background-color: #27AE60;
+}
+
+.app-status-normal{
+     background-color: #3498DB;
+}
+.app-status-normal-text{
+    background-color: #2980B9;
+}
+
+.app-status-slow{
+     background-color: #F1C40F;
+}
+.app-status-slow-text{
+    background-color: #F39C12;
+}
+
+.app-status-none{
+     background-color: #E74C3C;
+}
+.app-status-none-text{
+    background-color: #C0392B;
+}
