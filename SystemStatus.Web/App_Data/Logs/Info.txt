@@ -1,0 +1,17 @@
+2015-12-09 15:32:12.3337|INFO|SystemStatus.Web.WebApiApplication|Started
+2015-12-09 15:32:23.0808|INFO|SystemStatus.Web.WebApiApplication|Started
+2015-12-09 15:33:50.8345|INFO|SystemStatus.Web.WebApiApplication|Started
+2015-12-09 15:33:55.9010|INFO|SystemStatus.Web.WebApiApplication|Started
+2015-12-09 15:34:01.1706|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:34:12.1607|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:34:22.9017|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:34:33.0117|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:34:43.1298|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:34:53.2098|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:35:03.3998|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:35:13.5708|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:35:23.6498|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 16:17:54.0038|INFO|SystemStatus.Web.WebApiApplication|Started
+2015-12-09 16:18:05.2779|INFO|SystemStatus.Web.WebApiApplication|Started
+2015-12-09 16:23:10.7285|INFO|SystemStatus.Web.WebApiApplication|Started
+2015-12-09 16:23:22.8977|INFO|SystemStatus.Web.WebApiApplication|Started

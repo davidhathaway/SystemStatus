@@ -1,0 +1,7 @@
+2015-12-09 15:23:20.8765|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:23:31.2106|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:23:41.3216|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:23:57.0492|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:24:07.2222|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:24:26.0681|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2015-12-09 15:24:41.1596|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
