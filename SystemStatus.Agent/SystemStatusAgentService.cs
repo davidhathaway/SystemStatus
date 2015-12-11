@@ -25,11 +25,10 @@ namespace SystemStatus.Agent.WindowsService
         {
             InitializeComponent();
 
-           // this.EventLog.Source = "Application";
-            this.EventLog.Log = "Application";
+            this.EventLog.Source = "System Status Agent";
+            this.EventLog.Log = "System Status Agent";
 
-            //this.EventLog.Source = "System Status";
-            //this.EventLog.Log = "RPCD Logs";
+
 
             //create event log source
             ((System.ComponentModel.ISupportInitialize)(this.EventLog)).BeginInit();

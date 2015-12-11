@@ -9,6 +9,8 @@ namespace SystemStatus.Domain.Commands
 {
     public class CreateAppCommand : ICommand
     {
+        public int SystemGroupID { get; set; }
+
         [Display(Name="Application Name")]
         [Required]
         public string Name { get; set; }
@@ -25,7 +27,7 @@ namespace SystemStatus.Domain.Commands
 
         [Display(Name = "Agent Machine Name")]
         [Required]
-        public string MachineName { get; set; }
+        public string AgentName { get; set; }
 
         [Display(Name = "Fast Limit")]
         public decimal FastStatusLimit { get; set; }
@@ -40,6 +42,7 @@ namespace SystemStatus.Domain.Commands
             result.Add("1", "Ping");
             result.Add("2", "Http");
             result.Add("3", "Service");
+            result.Add("4", "SqlServer");
 
             return result;
         }

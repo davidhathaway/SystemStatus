@@ -31,13 +31,13 @@ namespace SystemStatus.Agent
             buffer = Encoding.ASCII.GetBytes(data);   
         }
 
-        protected override async Task<AppEvent> OnHandle(AppEventHook hook)
+        protected override async Task<AppEvent> OnHandle(App app)
         {
-            var hostName = hook.Command;
+            var hostName = app.Command;
 
             PingReply reply = await ping.SendPingAsync(hostName, timeout, buffer, options);
 
-            AppEvent appEvent = this.CreateFromHook(hook, reply.Status == IPStatus.Success ? (decimal?)reply.RoundtripTime : null);
+            AppEvent appEvent = this.CreateFromApp(app, reply.Status == IPStatus.Success ? (decimal?)reply.RoundtripTime : null);
 
             if (reply.Status == IPStatus.Success)
             {

@@ -10,36 +10,36 @@ using SystemStatus.Domain.ViewModels;
 
 namespace SystemStatus.Web.Controllers
 {
-    public class AppEventHookController : ApiController
+    public class AppController : ApiController
     {
         private IQueryProcessor queryProcessor;
 
-        public AppEventHookController(IQueryProcessor queryProcessor)
+        public AppController(IQueryProcessor queryProcessor)
         {
             this.queryProcessor = queryProcessor;
         }
 
         // GET api/<controller>
-        public IEnumerable<AppEventHook> Get()
+        public IEnumerable<App> Get()
         {
-            var qry = new ListAppEventHooksQuery();
+            var qry = new ListAppQuery();
             var result = queryProcessor.Process(qry);
             return result;
         }
 
         // GET api/<controller>/5
-        public AppEventHook Get(int id)
+        public App Get(int id)
         {
-            var qry = new SingleAppEventHookQuery() { AppEventHookID = id };
+            var qry = new SingleAppQuery() { AppID = id };
             var result = queryProcessor.Process(qry);
             return result;
         }
 
         // GET api/<controller>/5
         [HttpGet]
-        public IEnumerable<AppEventHook> GetAllByMachineName(string id)
+        public IEnumerable<App> GetAllByMachineName(string id)
         {
-            var qry = new ListAppEventHooksQuery() { MachineName = id };
+            var qry = new ListAppQuery() { AgentName = id };
             var result = queryProcessor.Process(qry);
             return result;
         }
@@ -63,7 +63,7 @@ namespace SystemStatus.Web.Controllers
         public AppEventCollectionViewModel DrillDown(int id)
         {
             //get last n events
-            var query = new ListAppEventsForDrillDownQuery() { AppEventHookID = id };
+            var query = new ListAppEventsForDrillDownQuery() { AppID = id };
             var result = this.queryProcessor.Process(query);
             return result;
 

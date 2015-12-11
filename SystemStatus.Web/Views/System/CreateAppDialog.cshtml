@@ -9,12 +9,13 @@
             </div>
             <div class="modal-body" id="app-create-modal-body">
 
-                @using (Html.BeginForm("CreateAppDialog", "Home", FormMethod.Post, new { @class = "form", id = "app-create-form" }))
+                @using (Html.BeginForm("CreateAppDialog", "System", FormMethod.Post, new { @class = "form", id = "app-create-form" }))
                 {
                     <fieldset>
                         <legend>Create - Form</legend>
 
-          
+                            @Html.HiddenFor(x=>x.SystemGroupID)
+
                             <div class="form-group">
                                 <div class="col-md-12">
                                     @Html.LabelFor(m => m.Name)
@@ -24,8 +25,8 @@
           
                         <div class="form-group">
                             <div class="col-md-12">
-                                @Html.LabelFor(m => m.MachineName)
-                                @Html.TextBoxFor(m => m.MachineName, new { @class = "form-control" })
+                                @Html.LabelFor(m => m.AgentName)
+                                @Html.TextBoxFor(m => m.AgentName, new { @class = "form-control" })
                             </div>
                         </div>
 

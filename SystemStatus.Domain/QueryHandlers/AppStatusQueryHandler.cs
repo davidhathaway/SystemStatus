@@ -15,20 +15,25 @@ namespace SystemStatus.Domain.QueryHandlers
             using (var context = new SystemStatusModel())
             {
                 context.Configuration.ProxyCreationEnabled = false;
-                var apps = context.Apps.Select(x => new
-                {
-                    App = x,
-                    Last10Events = x.Events
-                        .OrderByDescending(e => e.EventTime)
-                        .Take(10)
-                }).ToList();
+
+                var apps = context
+                    .Apps
+                    .Where(x=>x.SystemGroupID == query.SystemID)
+                    .Select(x => new
+                    {
+                        App = x,
+                        Last10Events = x.Events
+                            .OrderByDescending(e => e.EventTime)
+                            .Take(10)
+                    }).ToList();
 
                 var model = apps.Select(x => new AppStatusViewModel()
                 {
+                    SystemID = x.App.SystemGroupID,
                     AppID = x.App.AppID,
                     Name = x.App.Name,
                     Description = x.App.Description,
-                    MachineName = x.App.MachineName,
+                    AgentName = x.App.AgentName,
                     LastAppStatus = x.Last10Events.Count() > 0 ? x.Last10Events.First().AppStatus : AppStatus.None,
                     LastEventTime = x.Last10Events.Count() > 0 ? x.Last10Events.First().EventTime : DateTime.MinValue,
                     LastEventValue = x.Last10Events.Count() > 0 ? x.Last10Events.First().Value : null

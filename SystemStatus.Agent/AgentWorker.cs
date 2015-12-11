@@ -35,6 +35,7 @@ namespace SystemStatus.Agent
                     case HookHandlerTypes.PingHook: yield return new PingHookHandler(); break;
                     case HookHandlerTypes.HttpHook: yield return new HttpHookHandler(); break;
                     case HookHandlerTypes.ServiceHook: yield return new ServiceHookHandler(); break;
+                    case HookHandlerTypes.SqlServerHook: yield return new SqlServerHookHandler(); break;
                 }
             }
         }
@@ -47,7 +48,7 @@ namespace SystemStatus.Agent
         private async Task DoWork()
         {
             //do work
-            var pingHooks = await GetAppEventHooks();
+            var pingHooks = await GetApps();
             foreach (var hook in pingHooks.AsParallel())
             {
                 IHookHandler handler = _handlers.FirstOrDefault(x => x.AppEventHookTypeID == hook.AppEventHookTypeID);
@@ -65,7 +66,7 @@ namespace SystemStatus.Agent
             }
         }
 
-        private async Task<IEnumerable<AppEventHook>> GetAppEventHooks()
+        private async Task<IEnumerable<App>> GetApps()
         {
             //GetAllByMachineName
 
@@ -76,17 +77,17 @@ namespace SystemStatus.Agent
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var getUrl = "api/AppEventHook/GetAllByMachineName/" + MachineName;
+                var getUrl = "api/App/GetAllByMachineName/" + MachineName;
 
                 HttpResponseMessage response = await client.GetAsync(getUrl);
                 if (response.IsSuccessStatusCode)
                 {
-                    IEnumerable<AppEventHook> content = await response.Content.ReadAsAsync<IEnumerable<AppEventHook>>();
+                    IEnumerable<App> content = await response.Content.ReadAsAsync<IEnumerable<App>>();
                     return content;
                 }
             }
 
-            return Enumerable.Empty<AppEventHook>().ToList();
+            return Enumerable.Empty<App>().ToList();
         }
 
         private async Task PostAppEvent(AppEvent appEvent)
@@ -106,9 +107,9 @@ namespace SystemStatus.Agent
             }
         }
 
-        private async Task RunHookAsync(AppEventHook hook, IHookHandler handler)
+        private async Task RunHookAsync(App app, IHookHandler handler)
         {
-            var appEvent = await handler.Handle(hook);
+            var appEvent = await handler.Handle(app);
             await PostAppEvent(appEvent);
         }
 

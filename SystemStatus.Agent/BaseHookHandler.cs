@@ -11,14 +11,15 @@ namespace SystemStatus.Agent
     {
         PingHook,
         HttpHook,
-        ServiceHook
+        ServiceHook,
+        SqlServerHook
     }
 
     public abstract class BaseHookHandler : IHookHandler
     {
         public abstract int AppEventHookTypeID { get; }
 
-        public Task<AppEvent> Handle(AppEventHook hook)
+        public Task<AppEvent> Handle(App hook)
         {
             if (hook == null || hook.AppEventHookTypeID == 0)
             {
@@ -36,20 +37,19 @@ namespace SystemStatus.Agent
             }
             catch (Exception ex)
             {
-                var appEvent = CreateFromHook(hook, null);
+                var appEvent = CreateFromApp(hook, null);
                 appEvent.Message = string.Format("Exception: {0}", ex.ToString());
                 return Task.Run<AppEvent>(() => { return appEvent; });
             }
         }
 
-        protected abstract Task<AppEvent> OnHandle(AppEventHook hook);
+        protected abstract Task<AppEvent> OnHandle(App hook);
 
-        protected AppEvent CreateFromHook(AppEventHook hook, decimal? responseValue)
+        protected AppEvent CreateFromApp(App hook, decimal? responseValue)
         {
             var appEvent = new AppEvent() 
             { 
                 AppID = hook.AppID,
-                FromAppEventHookID = hook.AppEventHookID,
                 EventTime = DateTime.Now,
                 Value = responseValue 
             };

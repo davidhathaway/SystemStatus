@@ -9,7 +9,7 @@ namespace SystemStatus.Domain.Queries
 {
     public class ListAppEventsForDrillDownQuery : IQuery<AppEventCollectionViewModel>
     {
-        public int AppEventHookID { get; set; }
+        public int AppID { get; set; }
         public int TopN { get; set; }
         public ListAppEventsForDrillDownQuery()
         {

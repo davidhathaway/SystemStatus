@@ -15,48 +15,48 @@ namespace SystemStatus.Web.Controllers
     public class HomeController : Controller
     {
         private IQueryProcessor queryProcessor;
-        private ICommandHandler<CreateAppCommand> createAppHandler;
+        private ICommandHandler<CreateSystemCommand> createSystemHandler;
 
-        public HomeController(IQueryProcessor queryProcessor, ICommandHandler<CreateAppCommand> createAppHandler)
+        public HomeController(IQueryProcessor queryProcessor, ICommandHandler<CreateSystemCommand> createSystemHandler)
         {
             this.queryProcessor = queryProcessor;
-            this.createAppHandler = createAppHandler;
+            this.createSystemHandler = createSystemHandler;
         }
 
         public ActionResult Index()
         {
-            var query = new AppStatusQuery();
+            var query = new SystemStatusQuery();
             var model = queryProcessor.Process(query).ToArray();
+
+            foreach (var item in model)
+            {
+                item.DrillDownUrl = Url.Action("Index", "System", new { id = item.SystemGroupID });
+            }
+
             return View(model);
         }
 
         public JsonResult RefreshAll()
         {
-            var query = new AppStatusQuery();
+            var query = new SystemStatusQuery();
             var model = queryProcessor.Process(query).ToArray();
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
-        public PartialViewResult DrillDownDialog(int id)
-        {
-            var query = new AppDrillDownQuery() { AppID = id };
-            AppDrilldownViewModel model = queryProcessor.Process(query);
-            return PartialView(model);
-        }
+        
 
-        public PartialViewResult CreateAppDialog()
+        public PartialViewResult CreateSystemDialog()
         {
-            var model = new CreateAppCommand();
-            model.MachineName = Environment.MachineName;
+            var model = new CreateSystemCommand();
             return PartialView(model);
         }
 
         [HttpPost]
-        public JsonResult CreateAppDialog(CreateAppCommand model)
+        public JsonResult CreateSystemDialog(CreateSystemCommand model)
         {
             if (ModelState.IsValid)
             {
-                createAppHandler
+                this.createSystemHandler
                     .Handle(model)
                     .MergeWith(this.ModelState);
             }

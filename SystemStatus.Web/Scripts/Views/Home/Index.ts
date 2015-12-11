@@ -7,45 +7,28 @@
 /// <reference path="../../typings/moment/moment.d.ts" />
 
 
-declare var rawModel: Array<AppStatusViewModel>;
+declare var rawSystemStatusModel: any;
 
-interface SignalR {
-    appEventHub: any;
-};
-
-interface AppStatusViewModel
+interface SystemStatusViewModel
 {
-    AppID: number;
+    SystemGroupID: number;
     Name: string;
-    Description: string;
-    MachineName: string;
-    LastAppStatusText: string;
-    LastEventTime: string;
-    LastAppStatus: number;
-    LastEventValue: number;
+    AppStatuses: any;
+    DrillDownUrl: string;
 };
 
-interface AppEventViewModel
+class SystemAppViewKoModel
 {
-    AppEventID: number;
-    AppID: number;
-    FromAppEventHookID: number;
-    EventTime: any;
-    Message: string;
-    AppStatus: number;
-    Value : number;
-}
-
-class AppViewKoModel
-{
-    public items: KnockoutObservableArray<AppStatusKoModel>;
+    public items: KnockoutObservableArray<SystemStatusKoModel>;
     constructor() {
         this.items = ko.observableArray([]);
     }
 
+  
+
     RefreshAll()
     {
-        var url = $(".app-list").data("refreshall");
+        var url = <any>$(".app-list").data("refreshall");
 
         $.getJSON(url,(data, textStatus, jqXHR) => {
             if (data && data.length)
@@ -55,25 +38,25 @@ class AppViewKoModel
         }); 
     }
 
-    Load(data: Array<AppStatusViewModel>)
+    Load(data: Array<SystemStatusViewModel>)
     {
         //load model
         this.items.removeAll();
         for (var i = 0; i < data.length; i++)
         {
             var itemModel = data[i];
-            var appItem = new AppStatusKoModel(this, itemModel);
+            var appItem = new SystemStatusKoModel(this, itemModel);
             this.items.push(appItem);
         }
     }
 
     UpdateItem(model)
     {
-        if (model && model.AppID)
+        if (model && model.SystemID)
         {
             //find item
             var match = ko.utils.arrayFirst(this.items(), function (item) {
-                return model.AppID === item.AppID;
+                return model.SystemGroupID === item.SystemGroupID;
             });
 
             if (match)
@@ -83,19 +66,19 @@ class AppViewKoModel
         }
     }
 
-    CreateApp()
+    CreateSystem()
     {
-        var section = $("#app-create-section");
+        var section = $("#system-create-section");
 
         var url = section.data("url");
 
-        $("#app-create-section").empty();
+        $("#system-create-section").empty();
 
-        $("#app-create-section").load(url,() =>
+        $("#system-create-section").load(url,() =>
         {
-            var dlg = $("#app-create-modal");
+            var dlg = $("#system-create-modal");
             dlg.modal({ show: true });
-            var form = $("#app-create-form");
+            var form = $("#system-create-form");
             //hook save
             $(".create-dialog-save").click(() => {
                 //submit form  
@@ -128,67 +111,46 @@ class AppViewKoModel
 
 }
 
-class AppStatusKoModel
+class SystemStatusKoModel
 {
-    public App: AppViewKoModel;
-    public AppID: number;
-    public MachineName: string;
+    public App: SystemAppViewKoModel;
+    public SystemGroupID: number;
     public Name: string;
-    public Description: string;
-    public LastAppStatusText: KnockoutObservable<string>;
-    public LastEventTime: KnockoutObservable<string>;
-    public LastAppStatus: KnockoutObservable<number>;
-    public LastEventValue: KnockoutObservable<number>;
-    public AppStatusText: KnockoutComputed<string>;
+    public DrillDownUrl: string;
+
+  
+
+    public LastAppStatuses: KnockoutObservable<any>;
     public AppStatusClass: KnockoutComputed<string>;
     public AppStatusTextClass: KnockoutComputed<string>;
-    public AppEvents: KnockoutObservableArray<AppEventKoModel>;
-    public AppTitle: KnockoutComputed<string>;
-    public Plot: any;
-    public CurrentChartData: any;
-    public Loading: boolean;
 
-    constructor(app: AppViewKoModel, model: AppStatusViewModel)
+    constructor(app: SystemAppViewKoModel, model: SystemStatusViewModel)
     {
         this.App = app;
-        this.AppID = model.AppID;
+        this.SystemGroupID = model.SystemGroupID;
         this.Name = model.Name;
-        this.MachineName = model.MachineName;
-        this.Description = model.Description;
-        this.LastAppStatusText = ko.observable(model.LastAppStatusText);
-        this.LastEventTime = ko.observable(model.LastEventTime);
-        this.LastAppStatus = ko.observable(model.LastAppStatus);
-        this.LastEventValue = ko.observable(model.LastEventValue);
-        this.AppEvents = ko.observableArray([]);
-        this.Loading = false;
-        var self = this;
-        this.AppTitle = ko.computed(() => {
-            if (self.MachineName && self.MachineName.length > 0)
-            {
-                return self.MachineName + " - " + self.Name;
-            }
-            return self.Name;
-        });
+        this.DrillDownUrl = model.DrillDownUrl;
 
-        this.AppStatusText = ko.computed(() => {
-            var timeAsDate = new Date(this.LastEventTime());
-            var timeago = $.timeago(timeAsDate);
-
-            if (this.LastEventValue())
-            {
-                return this.LastAppStatusText() + " - " + timeago + " - " + this.LastEventValue();
-            }
-            else
-            {
-                return this.LastAppStatusText() + " - " + timeago;
-            }
-
-        }, this);
+        this.LastAppStatuses = ko.observable(model.AppStatuses);
 
         this.AppStatusClass = ko.computed(() =>
         {
+            var systemStatus = 0;
+
+            var statuses = this.LastAppStatuses();
+            if ($.isArray(statuses))
+            {
+                systemStatus = 4;
+                for (var i = 0; i < statuses.length; i++) {
+                    var status = statuses[i];
+                    if (status < systemStatus) {
+                        systemStatus = status;
+                    }
+                }
+            }
+
             var statusClass = "app-status-error";
-            switch (this.LastAppStatus()) {
+            switch (systemStatus) {
                 case 0:
                     statusClass = "app-status-none";
                     break;
@@ -208,194 +170,31 @@ class AppStatusKoModel
             return statusClass;
         }, this);
 
-        this.AppStatusTextClass = ko.computed(() =>
-        {
+        this.AppStatusTextClass = ko.computed(() => {
             return this.AppStatusClass() + "-text";
 
         }, this);
+
     }
 
-    update(model: AppStatusViewModel)
+    update(model: SystemStatusViewModel)
     {
-        this.LastAppStatusText(model.LastAppStatusText);
-        this.LastEventTime(model.LastEventTime);
-        this.LastAppStatus(model.LastAppStatus);
-        this.LastEventValue(model.LastEventValue);
-
-        //add to graph if visible
-        var koModel = $("#app-drilldown-section").data("AppStatusKoModel");
-        if (koModel && koModel === this)
-        {
-            this.loadDrillDownContent();
- 
-            //var time = new Date(model.LastEventTime).getTime();
-            //var value = model.LastEventValue;
-            //var newArray = [[time, value]];
-            //this.CurrentChartData = newArray.concat(this.CurrentChartData);
-
-            //var series = [{
-            //    data: this.CurrentChartData,
-            //    lines: {
-            //        fill: true
-            //    }
-            //}];
-
-            //this.Plot.setData(series);
-            //this.Plot.draw();
-        }
+      
     }
 
-    drilldown()
+    ViewGroup()
     {
-        if (!this.Loading) {
-            this.Loading = true;
-            //setup dlg
-            var drillDownSection = $("#app-drilldown-section");
-            var url = drillDownSection.data("url");
-            var data = { id: this.AppID };
-
-            $("#app-drilldown-section").empty();
-            $("#app-drilldown-section").load(url, data,() => {
-                this.Loading = false;
-                $("#app-drilldown-section").data("AppStatusKoModel", this);
-                $("#app-drilldown-chart").hide();
-                var dlg = $("#app-drilldown-modal");
-                dlg.modal({ show: true });
-
-                //hook up form to get status of specific hook (first selected).
-                $("#app-drilldown-eventHook").change(() => {
-                    //load
-                    this.loadDrillDownContent();
-                });
-
-                this.loadDrillDownContent();
-            });
-        
-        }
+        //open group in new window?
+        window.open(this.DrillDownUrl);
     }
 
-    loadDrillDownContent()
-    {
-        var selectedEventHook = $("#app-drilldown-eventHook").val();
-        var form = $("#app-drilldown-form");
-        var url = form.attr("action") + "/" + selectedEventHook;
-       
-         //get data.
-        //$("#app-drilldown-chart").hide();
-        //$("#app-drilldown-chart").empty();
-        $.getJSON(url, (outdata, textStatus, jqXHR) =>
-        {
-            if (outdata.Events && outdata.Events.length)
-            {
-                this.loadChart(outdata.Events, outdata.MinValue, outdata.MaxValue);
-                this.loadTable(outdata);
-            }
-        }); 
-    }
-
-    loadChart(events, min:number, max:number)
-    {
-        if (!events || !events.length || events.length == 0)
-            return;
-
-        this.CurrentChartData = [];
-
-        var appEvents = [];
-
-        for (var i = 0; i < events.length; i++)
-        {
-            if (events[i].Value != null) {
-                var time = new Date(events[i].EventTime).getTime();
-                var value = events[i].Value;
-                var row = [time, value];
-                this.CurrentChartData.push(row); 
-            }
-            appEvents.push(new AppEventKoModel(events[i]));
-        }
-
-        this.AppEvents(appEvents);
-
-        if (this.CurrentChartData.length > 0) {
-
-            var placeholder = $("#app-drilldown-chart");
-
-            var series = [{
-                data: this.CurrentChartData,
-                lines: {
-                    fill: true
-                }
-            }];
-
-            this.Plot = $.plot(placeholder, series,
-                {
-                    xaxis:
-                    {
-                        mode: "time"
-                    },
-                    yaxis: {
-                        min: min,
-                        max: max
-                    },
-                    legend: {
-                        show: true
-                    }
-                });
-
-            //tabulate data.
-            $("#app-drilldown-chart").show();
-        }
-    }
-
-    loadTable(data)
-    {
-        //set AppEvents
-        var container = document.getElementById("app-drilldown-table");
-        ko.cleanNode(container);
-        ko.applyBindings(this, container);
-    }
 }
-
-class AppEventKoModel
-{
-    public AppEventID: number;
-    public Message: string;
-    public EventTime: string;
-    public AppStatus: number;
-    public Value: number;
-    public AppStatusText: KnockoutComputed<string>;
-    constructor(appEvent: AppEventViewModel)
-    {
-        this.AppEventID = appEvent.AppEventID;
-        this.Message = appEvent.Message;
-
-
-        var eventTimeDate = new Date(appEvent.EventTime);
-        this.EventTime = moment(eventTimeDate).format("DD/MM/YYYY hh:mm:ss");
-
-        this.AppStatus = appEvent.AppStatus;
-        this.Value = appEvent.Value;
-
-        this.AppStatusText = ko.computed(() => {
-            switch (this.AppStatus)
-            {
-                case 0: return "None";
-                case 1: return "Fast";
-                case 2: return "Normal";
-                case 3: return "Slow";
-                case 4: return "Running";
-                default: return "Error"
-            }
-        }, this);
-
-    }
-}
-
 
 $(function () {
 
-    var appModel = new AppViewKoModel();
+    var appModel = new SystemAppViewKoModel();
 
-    appModel.Load(rawModel);
+    appModel.Load(rawSystemStatusModel);
 
     ko.applyBindings(appModel);
 
@@ -406,10 +205,11 @@ $(function () {
         console.log(model);
         appModel.UpdateItem(model);
     };
-    $.connection.hub.logging = true;
+
     $.connection.hub.start().done(function (e)
     {
         console.log(e);
 
     });
+
 });

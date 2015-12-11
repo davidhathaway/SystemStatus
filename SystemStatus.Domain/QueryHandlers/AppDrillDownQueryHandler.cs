@@ -19,8 +19,7 @@ namespace SystemStatus.Domain.QueryHandlers
                 {
                     AppID = app.AppID,
                     Name = app.Name,
-                    Description = app.Description,
-                    AppEventHooks = app.Hooks.Where(x => x.Active).ToDictionary(x => x.AppEventHookID, x =>  x.Name )
+                    Description = app.Description
                 };
             }
         }

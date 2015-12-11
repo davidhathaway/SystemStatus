@@ -16,12 +16,7 @@
                         @Html.HiddenFor(m => m.AppID)
                         @Html.HiddenFor(m => m.Name)
                         @Html.HiddenFor(m => m.Description)
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                @Html.LabelFor(m => m.SelectedAppEventHook)
-                                @Html.DropDownListFor(m => m.SelectedAppEventHook, Model.AppEventHooks.Select(h => new SelectListItem() { Text = h.Value, Value = h.Key.ToString() }).ToList(), new { @class = "form-control", id = "app-drilldown-eventHook" })
-                            </div>
-                        </div>
+                   
                         <div class="row">
                             <div class="col-md-12">
                                 <div id="app-drilldown-chart" style="height:300px;width:100%;"></div>

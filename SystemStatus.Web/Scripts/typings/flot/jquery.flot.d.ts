@@ -117,6 +117,7 @@ declare module jquery.flot {
         tickLength?: number;
 
         alignTicksWithAxis?: number;
+        mode?: string;
     }
 
     interface seriesTypeBase {

@@ -12,7 +12,6 @@ namespace SystemStatus.Domain.ViewModels
         public string Message { get; set; }
         public int AppID { get; set; }
         public AppStatus AppStatus { get; set; }
-        public int FromAppEventHookID { get; set; }
         public decimal? Value { get; set; }
     }
 }

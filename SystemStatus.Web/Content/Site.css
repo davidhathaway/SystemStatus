@@ -25,20 +25,28 @@ legend{
     white-space: normal;
 }
 
+.button-row{
+    margin-top:5px;
+}
+
 .app-list
 {
     list-style:none;
     margin:0;
     padding:0;
-   
 }
 
-.app-item
+.system-list{
+     list-style:none;
+    margin:0;
+    padding:0;
+}
+
+.system-item, .app-item
 {
     /*border:1px solid #808080;*/
     margin-top:20px;
     display:inline-block;
- 
     float:left;
     width: 16.666666666666664%;
     position: relative;
@@ -47,12 +55,29 @@ legend{
     padding-left: 15px;
 }
 
-.app-item-inner {
+
+
+ .app-item-inner {
     padding: 15px;
     -ms-word-break: break-all;
     word-break: break-all;
     min-height: 150px;
     position:relative;
+}
+
+.system-item-inner {
+    padding: 15px;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    min-height: 150px;
+    position:relative;
+}
+
+.system-item-inner h1{
+    margin:0;
+    display:inline-block;
+    vertical-align: middle;
+    color:white;
 }
 
 .app-item-inner h4{
@@ -127,10 +152,41 @@ legend{
     background-color: #C0392B;
 }
 
+.row.system-title{
+    margin-top:0;
+    padding-top:0;
+    
+}
+.system-item > .col-md-12
+{
+    margin-top:0;
+    padding-top:0;
+}
+
+.system-title h1 , .system-title h2, .system-title h3, .system-title h4
+{
+    padding:10px;
+    background-color:#ccc;
+    color:white;
+    margin-top:0;
+}
+
+.subsystem-title h1, .subsystem-title h2, .subsystem-title h3, .subsystem-title h4
+{
+    background-color:#b200ff;
+}
+
+.apps-title h1, .apps-title h2, .apps-title h3, .apps-title h4
+{
+     margin-top:15px;
+     background-color:#F1C40F;
+}
+
+
 
 @media (min-width: 1200px) 
 {
-     .app-item {
+    .system-item, .app-item {
     width: 25%; /*span3*/
   }
 
@@ -138,7 +194,7 @@ legend{
 
 @media (min-width: 992px) and (max-width: 1199px) 
 {
-  .app-item {
+  .system-item, .app-item {
     width: 25%; /*span3*/
   }
 
@@ -147,7 +203,7 @@ legend{
 
 @media (min-width: 768px) and (max-width: 991px) 
 {
-    .app-item {
+   .system-item, .app-item {
         width: 33.33333333333333%; /*span4*/
     } 
 
@@ -157,7 +213,7 @@ legend{
 @media (min-width: 501px) and (max-width: 767px) 
 {
 
-    .app-item {
+    .system-item, .app-item {
         width: 50%; /*span6*/
     }
 
@@ -165,7 +221,7 @@ legend{
 
 @media(max-width: 500px) 
 {
-    .app-item {
+    .system-item, .app-item {
         width:100%; /*span12*/
     }
 

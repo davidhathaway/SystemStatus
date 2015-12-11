@@ -23,14 +23,14 @@ namespace SystemStatus.Agent
           
         }
 
-        protected override async Task<AppEvent> OnHandle(AppEventHook hook)
+        protected override async Task<AppEvent> OnHandle(App app)
         {
 
            return await Task.Run<AppEvent>(() => {
 
-                ServiceController sc = new ServiceController(hook.Command);
+                ServiceController sc = new ServiceController(app.Command);
                 var message = "Service is " + Enum.GetName(typeof(ServiceControllerStatus), sc.Status);
-                var appEvent = this.CreateFromHook(hook, null);
+                var appEvent = this.CreateFromApp(app, null);
                 appEvent.Message = message;
                 appEvent.AppStatus = sc.Status == ServiceControllerStatus.Running ? AppStatus.Running : AppStatus.None;
                 return appEvent;

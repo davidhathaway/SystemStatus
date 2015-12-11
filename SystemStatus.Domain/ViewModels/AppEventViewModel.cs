@@ -10,7 +10,6 @@ namespace SystemStatus.Domain.ViewModels
     {
         public int MinValue { get; set; }
         public int MaxValue { get; set; }
-        public int AppEventHookID { get; set; }
         public int AppID { get; set; }
         public IEnumerable<AppEventViewModel> Events { get; set; }
     }

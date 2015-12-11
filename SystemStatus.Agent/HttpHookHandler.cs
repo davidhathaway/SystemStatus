@@ -24,15 +24,15 @@ namespace SystemStatus.Agent
             client = new HttpClient();
         }
 
-        protected override async Task<AppEvent> OnHandle(AppEventHook hook)
+        protected override async Task<AppEvent> OnHandle(App app)
         {
             
             Stopwatch sw = Stopwatch.StartNew();
             try
             {
-                var response = await client.GetAsync(hook.HttpUrl);
+                var response = await client.GetAsync(app.HttpUrl);
                 sw.Stop();
-                AppEvent appEvent = this.CreateFromHook(hook, response.IsSuccessStatusCode ? (decimal?)sw.ElapsedMilliseconds : null);
+                AppEvent appEvent = this.CreateFromApp(app, response.IsSuccessStatusCode ? (decimal?)sw.ElapsedMilliseconds : null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -45,11 +45,19 @@ namespace SystemStatus.Agent
 
                 return appEvent;
             }
-            catch (HttpRequestException ex)
+           
+            catch (HttpRequestException httpEx)
             {
                 sw.Stop();
-                AppEvent appEvent = this.CreateFromHook(hook, null);
-                appEvent.Message = string.Format("Http Exception: {0}", ex.ToString());
+                AppEvent appEvent = this.CreateFromApp(app, null);
+                appEvent.Message = string.Format("Http Exception: {0}", httpEx.ToString());
+                return appEvent;
+            }
+            catch(Exception ex)
+            {
+                sw.Stop();
+                AppEvent appEvent = this.CreateFromApp(app, null);
+                appEvent.Message = string.Format("Exception: {0}", ex.ToString());
                 return appEvent;
             }
 

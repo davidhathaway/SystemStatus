@@ -12,7 +12,13 @@ namespace SystemStatus.Domain.Commands
         {
             CommandResult<CreateAppCommand> result = new CommandResult<CreateAppCommand>();
 
-            
+            using (var context = new SystemStatusModel())
+            {
+                if (context.Apps.Any(x => x.Name == command.Name && x.SystemGroupID == command.SystemGroupID))
+                {
+                    result.Errors.Add("Name", new List<string>() { "Duplicate Name: You must provide a unique Name." });
+                }
+            }
 
             return result;
         }
@@ -21,21 +27,17 @@ namespace SystemStatus.Domain.Commands
         {
             using (var context = new SystemStatusModel())
             {
+                var hookType = context.AppEventHookTypes.First(x => x.AppEventHookTypeID == command.AppEventHookTypeID);
+
                 var app = new App() 
-                { 
+                {
+                    SystemGroupID = command.SystemGroupID,
                     Description = command.Description,
                     Name = command.Name,
-                    MachineName = command.MachineName
-                };
-
-                var hookType = context.AppEventHookTypes.First(x=>x.AppEventHookTypeID == command.AppEventHookTypeID);
-
-                var appHook = new AppEventHook() { 
+                    AgentName = command.AgentName,
                     AppEventHookTypeID = command.AppEventHookTypeID,
                     FastStatusLimit = command.FastStatusLimit,
                     NormalStatusLimit = command.NormalStatusLimit,
-                    Name = command.Name + ": " + hookType.Name,
-
                     Active = true
                 };
 
@@ -43,14 +45,14 @@ namespace SystemStatus.Domain.Commands
 	            {
 		            case 1:
                     case 3:
-                        appHook.Command = command.Command;
+                    case 4:
+                        app.Command = command.Command;
                         break;
                     case 2:
-                        appHook.HttpUrl = command.Command;
+                        app.HttpUrl = command.Command;
                         break;
 	            }
 
-                app.Hooks.Add(appHook);
                 context.Apps.Add(app);
                 context.SaveChanges();
             }

@@ -1,0 +1,79 @@
+﻿@model SystemGroupViewModel
+
+@section scripts{
+
+    <script src="~/Scripts/knockout-3.3.0.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/flot/jquery.flot.min.js"></script>
+    <script src="~/Scripts/flot/jquery.flot.time.min.js"></script>
+    <script src="~/Scripts/flot/jquery.flot.resize.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+
+    <script src="/signalr/hubs"></script>
+
+    <script src="~/Scripts/Views/System/Index.js"></script>
+    <script type="text/javascript">
+        var rawModel = @Html.ModelToJsonRaw();
+    </script>
+}
+
+@{
+    ViewBag.Title = "System Status - " + Model.Name;
+}
+<div class="system-title row">
+    
+    <div class="col-md-12">
+        <h2>@Model.Name</h2>
+    </div>
+
+
+   
+</div>
+
+<div class="row button-row">
+    <div class="col-md-12">
+        <button class="btn btn-primary btn-sm add-app-button" type="button" data-bind="click: CreateSubSystem" title="Create SubSystem">
+            Create Sub System <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+
+<div class="row button-row"> 
+    <div class="col-md-12">
+        <button class="btn btn-primary btn-sm add-app-button" type="button" data-bind="click: CreateApp" title="Create App">
+            Create App <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home", new { id = Model.SystemGroupID })" data-bind="template: { name: 'appItemTemplate', foreach: items, as: 'item' }"></ul>
+</div>
+
+<script type="text/html" id="appItemTemplate">
+    <li class="app-item" data-bind="">
+        <div class="app-item-inner" data-bind="css: AppStatusClass, click:drilldown">
+            <h4 data-bind="text: Name"></h4>
+            <p>
+                <span data-bind="if: AgentName" class="app-item-description">
+                    Agent : 
+                    <span data-bind="text: AgentName"></span>
+                </span> 
+            </p>
+            @*<p>
+                <span class="app-item-description" data-bind="text: Description"></span>
+            </p>*@
+            <span class="app-item-status" data-bind="css: AppStatusTextClass, click:drilldown"><small data-bind="text: AppStatusText"></small></span>
+        </div>
+    </li>
+</script>
+
+<div id="app-drilldown-section" data-url="@Url.Action("DrillDownDialog", "System", new { id = Model.SystemGroupID })"></div>
+
+<div id="app-create-section" data-url="@Url.Action("CreateAppDialog", "System", new { id = Model.SystemGroupID })"></div>
+
+<div id="system-create-section" data-url="@Url.Action("CreateSubSystemDialog", "System", new { id = Model.SystemGroupID })"></div>
+
+
+
+

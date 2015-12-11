@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SystemStatus.Agent</RootNamespace>
     <AssemblyName>SystemStatus.Agent</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,6 +67,7 @@
   <ItemGroup>
     <Compile Include="AgentWorker.cs" />
     <Compile Include="BaseHookHandler.cs" />
+    <Compile Include="SqlServerHookHandler.cs" />
     <Compile Include="ServiceHookHandler.cs" />
     <Compile Include="HttpHookHandler.cs" />
     <Compile Include="IHookHandler.cs" />

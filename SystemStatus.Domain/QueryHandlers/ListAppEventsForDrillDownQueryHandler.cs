@@ -14,29 +14,27 @@ namespace SystemStatus.Domain.QueryHandlers
         {
             using(var db = new SystemStatusModel())
             {
-                var hook = db.AppEventHooks.First(x => x.AppEventHookID == query.AppEventHookID);
+                var app = db.Apps.First(x => x.AppID == query.AppID);
 
-                var events = db.AppEvents
-                    .Where(x => x.FromAppEventHookID == query.AppEventHookID)
-                    .OrderByDescending(x=>x.EventTime)
+               var events = app.Events
+                    .OrderByDescending(x => x.EventTime)
                     .Take(query.TopN)
-                    .Select(x => new AppEventViewModel() { 
-                        AppEventID= x.AppEventID,
-                        AppStatus =x.AppStatus,
+                    .Select(x => new AppEventViewModel()
+                    {
+                        AppEventID = x.AppEventID,
+                        AppStatus = x.AppStatus,
                         EventTime = x.EventTime,
-                        Message =x.Message,
-                        Value = x.Value 
+                        Message = x.Message,
+                        Value = x.Value
 
                     })
                     .ToList();
 
                 var result = new AppEventCollectionViewModel();
-                result.AppEventHookID = hook.AppEventHookID;
-                result.AppID = hook.AppID;
+                result.AppID = app.AppID;
                 result.Events = events;
-                result.MaxValue = ((int)hook.NormalStatusLimit) * 2;
+                result.MaxValue = ((int)app.NormalStatusLimit) * 2;
                 result.MinValue = 0;
-
                 return result;
             }
         }

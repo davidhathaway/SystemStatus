@@ -13,7 +13,6 @@ namespace SystemStatus.Domain
         public virtual App App { get; set; }
         public virtual int AppID { get; set; }
         public virtual AppStatus AppStatus { get; set; }
-        public virtual int FromAppEventHookID { get; set; }
         public decimal? Value { get; set; }
   
 

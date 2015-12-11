@@ -13,11 +13,21 @@ namespace SystemStatus.Domain
 {
     public class SystemStatusModel : DbContext
     {
+        public DbSet<SystemGroup> Systems { get; set; }
         public DbSet<App> Apps { get; set; }
         public DbSet<AppEvent> AppEvents { get; set; }
-        public DbSet<AppEventHook> AppEventHooks { get; set; }
         public DbSet<AppEventHookType> AppEventHookTypes { get; set; }
- 
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<SystemGroup>()
+                .HasOptional(x => x.Parent)
+                .WithMany(x => x.ChildGroups);
+
+        }
+
         public static void App_Start()
         {
             Database.SetInitializer<SystemStatusModel>(new MigrateDatabaseToLatestVersion<SystemStatusModel, Configuration>());
@@ -28,6 +38,7 @@ namespace SystemStatus.Domain
             AppEventHookTypes.AddOrUpdate(x => x.AppEventHookTypeID, new AppEventHookType() { AppEventHookTypeID = 1, Name = "Ping" });
             AppEventHookTypes.AddOrUpdate(x => x.AppEventHookTypeID, new AppEventHookType() { AppEventHookTypeID = 2, Name = "Http" });
             AppEventHookTypes.AddOrUpdate(x => x.AppEventHookTypeID, new AppEventHookType() { AppEventHookTypeID = 3, Name = "Service" });
+            AppEventHookTypes.AddOrUpdate(x => x.AppEventHookTypeID, new AppEventHookType() { AppEventHookTypeID = 4, Name = "SqlServer" });
             //AppEventHookTypes.AddOrUpdate(x => x.AppEventHookTypeID == 3, new AppEventHookType() { AppEventHookTypeID = 3, Name = "Api Hook" });
             //AppEventHookTypes.AddOrUpdate(x => x.AppEventHookTypeID == 4, new AppEventHookType() { AppEventHookTypeID = 4, Name = "System Status Reciver" });
             this.SaveChanges();

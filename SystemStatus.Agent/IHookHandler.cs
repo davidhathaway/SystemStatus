@@ -10,6 +10,6 @@ namespace SystemStatus.Agent
     public interface IHookHandler
     {
         int AppEventHookTypeID { get; }
-        Task<AppEvent> Handle(AppEventHook hook);
+        Task<AppEvent> Handle(App app);
     }
 }

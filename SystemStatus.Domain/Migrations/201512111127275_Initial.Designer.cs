@@ -7,13 +7,13 @@ namespace SystemStatus.Domain.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedMachineNameToApp : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedMachineNameToApp));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201512041035405_AddedMachineNameToApp"; }
+            get { return "201512111127275_Initial"; }
         }
         
         string IMigrationMetadata.Source

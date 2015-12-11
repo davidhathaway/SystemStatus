@@ -28,7 +28,6 @@ namespace SystemStatus.Domain.Commands
                 appEvent.AppID = command.Model.AppID;
                 appEvent.AppStatus = command.Model.AppStatus;
                 appEvent.EventTime = command.Model.EventTime;
-                appEvent.FromAppEventHookID = command.Model.FromAppEventHookID;
                 appEvent.Message = command.Model.Message;
                 appEvent.Value = command.Model.Value;
                 db.AppEvents.Add(appEvent);

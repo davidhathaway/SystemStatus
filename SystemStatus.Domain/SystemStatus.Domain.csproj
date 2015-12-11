@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SystemStatus.Domain</RootNamespace>
     <AssemblyName>SystemStatus.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,7 +58,9 @@
     <Compile Include="AppStatus.cs" />
     <Compile Include="AppEventHook.cs" />
     <Compile Include="AppEventHookType.cs" />
+    <Compile Include="Commands\CreateSystemCommand.cs" />
     <Compile Include="Commands\CreateAppCommand.cs" />
+    <Compile Include="Commands\CreateSystemCommandHandler.cs" />
     <Compile Include="Commands\CreateAppCommandHandler.cs" />
     <Compile Include="Commands\CreateAppEventCommand.cs" />
     <Compile Include="Commands\CreateAppEventCommandHandler.cs" />
@@ -72,90 +75,47 @@
     <Compile Include="CQRS\IQueryProcessor.cs" />
     <Compile Include="CQRS\IRepository.cs" />
     <Compile Include="CQRS\QueryProcessor.cs" />
-    <Compile Include="Migrations\201506291505461_Init.cs" />
-    <Compile Include="Migrations\201506291505461_Init.Designer.cs">
-      <DependentUpon>201506291505461_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506301053370_Init1.cs" />
-    <Compile Include="Migrations\201506301053370_Init1.Designer.cs">
-      <DependentUpon>201506301053370_Init1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507020908020_Init2.cs" />
-    <Compile Include="Migrations\201507020908020_Init2.Designer.cs">
-      <DependentUpon>201507020908020_Init2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507020935206_Init3.cs" />
-    <Compile Include="Migrations\201507020935206_Init3.Designer.cs">
-      <DependentUpon>201507020935206_Init3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507020939046_Init4.cs" />
-    <Compile Include="Migrations\201507020939046_Init4.Designer.cs">
-      <DependentUpon>201507020939046_Init4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507020947403_Init5.cs" />
-    <Compile Include="Migrations\201507020947403_Init5.Designer.cs">
-      <DependentUpon>201507020947403_Init5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512041008185_AddedMachineName.cs" />
-    <Compile Include="Migrations\201512041008185_AddedMachineName.Designer.cs">
-      <DependentUpon>201512041008185_AddedMachineName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512041035405_AddedMachineNameToApp.cs" />
-    <Compile Include="Migrations\201512041035405_AddedMachineNameToApp.Designer.cs">
-      <DependentUpon>201512041035405_AddedMachineNameToApp.cs</DependentUpon>
+    <Compile Include="Migrations\201512111127275_Initial.cs" />
+    <Compile Include="Migrations\201512111127275_Initial.Designer.cs">
+      <DependentUpon>201512111127275_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\AppDrillDownQuery.cs" />
     <Compile Include="Queries\AppStatusQuery.cs" />
-    <Compile Include="Queries\ListAppEventHooksQuery.cs" />
     <Compile Include="Queries\ListAppEventsForDrillDownQuery.cs" />
-    <Compile Include="Queries\SingleAppEventHookQuery.cs" />
+    <Compile Include="Queries\ListAppQuery.cs" />
+    <Compile Include="Queries\SingleAppQuery.cs" />
     <Compile Include="Queries\SingleAppStatusQuery.cs" />
+    <Compile Include="Queries\SingleSystemGroupQuery.cs" />
+    <Compile Include="Queries\SystemStatusQuery.cs" />
     <Compile Include="QueryHandlers\AppDrillDownQueryHandler.cs" />
     <Compile Include="QueryHandlers\ListAppEventsForDrillDownQueryHandler.cs" />
+    <Compile Include="QueryHandlers\ListAppQueryHandler.cs" />
+    <Compile Include="QueryHandlers\SingleAppQueryHandler.cs" />
     <Compile Include="QueryHandlers\SingleAppStatusQueryHandler.cs" />
     <Compile Include="QueryHandlers\AppStatusQueryHandler.cs" />
-    <Compile Include="QueryHandlers\SingleAppEventHooksQueryHandler.cs" />
-    <Compile Include="QueryHandlers\ListAppEventHooksQueryHandler.cs" />
+    <Compile Include="QueryHandlers\SingleSystemGroupQueryHandler.cs" />
+    <Compile Include="QueryHandlers\SystemStatusQueryHandler.cs" />
+    <Compile Include="SystemGroup.cs" />
     <Compile Include="SystemStatusModel.cs" />
     <Compile Include="ViewModels\AppDrilldownViewModel.cs" />
     <Compile Include="ViewModels\AppEventViewModel.cs" />
     <Compile Include="ViewModels\CreateAppEventModel.cs" />
-    <Compile Include="ViewModels\AppStatusModel.cs" />
+    <Compile Include="ViewModels\AppStatusViewModel.cs" />
+    <Compile Include="ViewModels\SystemStatusViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201506291505461_Init.resx">
-      <DependentUpon>201506291505461_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506301053370_Init1.resx">
-      <DependentUpon>201506301053370_Init1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507020908020_Init2.resx">
-      <DependentUpon>201507020908020_Init2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507020935206_Init3.resx">
-      <DependentUpon>201507020935206_Init3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507020939046_Init4.resx">
-      <DependentUpon>201507020939046_Init4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507020947403_Init5.resx">
-      <DependentUpon>201507020947403_Init5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512041008185_AddedMachineName.resx">
-      <DependentUpon>201512041008185_AddedMachineName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512041035405_AddedMachineNameToApp.resx">
-      <DependentUpon>201512041035405_AddedMachineNameToApp.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="CommandHandlers\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CommandHandlers\" />
+    <EmbeddedResource Include="Migrations\201512111127275_Initial.resx">
+      <DependentUpon>201512111127275_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
