@@ -10,7 +10,8 @@ namespace SystemStatus.Domain.ViewModels
     {
         public int SystemGroupID { get; set; }
         public string Name { get; set; }
-        public AppStatus[] AppStatuses { get; set; }
+        public AppStatusViewModel[] AppStatuses { get; set; }
         public string DrillDownUrl { get; set; }
+       
     }
 }

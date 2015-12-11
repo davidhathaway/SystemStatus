@@ -29,7 +29,7 @@ namespace SystemStatus.Domain.QueryHandlers
 
                 var model = apps.Select(x => new AppStatusViewModel()
                 {
-                    SystemID = x.App.SystemGroupID,
+                    SystemGroupID = x.App.SystemGroupID,
                     AppID = x.App.AppID,
                     Name = x.App.Name,
                     Description = x.App.Description,

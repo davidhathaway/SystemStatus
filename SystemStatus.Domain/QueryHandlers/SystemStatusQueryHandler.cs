@@ -17,15 +17,24 @@ namespace SystemStatus.Domain.QueryHandlers
             {
                 context.Configuration.ProxyCreationEnabled = false;
 
-                var systems = context.Systems
-                    .Include(x=>x.Apps)
-                    .Where(x=>x.ParentID == null)
+                var qry = context.Systems.Include(x => x.Apps);
+
+                if(query.ParentGroupID.HasValue)
+                {
+                    qry = qry.Where(x => x.ParentID == query.ParentGroupID.Value);
+                }
+                else
+                {
+                    qry = qry.Where(x => x.ParentID == null);
+                }
+
+                var systems = qry
                     .Select(x=> new
                     {
                         System = x,
                         Apps = x.Apps.Select(a => new
                         {
-                            AppID = a.AppID,
+                            App = a,
                             LastEvent = a.Events.OrderByDescending(o => o.EventTime).FirstOrDefault()
                         })
                     })
@@ -35,7 +44,17 @@ namespace SystemStatus.Domain.QueryHandlers
                 {
                     SystemGroupID = x.System.SystemGroupID,
                     Name = x.System.Name,
-                    AppStatuses = x.Apps.Select(a=> a.LastEvent == null ? AppStatus.None : a.LastEvent.AppStatus).ToArray()
+                    AppStatuses = x.Apps.Select(a => new AppStatusViewModel()
+                    {
+                        AppID = a.App.AppID,
+                        AgentName = a.App.AgentName,
+                        Description = a.App.Description,
+                        LastAppStatus = a.LastEvent != null ? a.LastEvent.AppStatus : AppStatus.None ,
+                        LastEventTime = a.LastEvent != null ? a.LastEvent.EventTime : DateTime.MinValue,
+                        LastEventValue = a.LastEvent != null ? a.LastEvent.Value : null,
+                        Name = a.App.Name,
+                        SystemGroupID = a.App.SystemGroupID
+                    }).ToArray()
                 }).ToList();
 
                 return model;

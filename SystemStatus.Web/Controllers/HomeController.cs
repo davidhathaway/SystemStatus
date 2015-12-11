@@ -39,7 +39,14 @@ namespace SystemStatus.Web.Controllers
         public JsonResult RefreshAll()
         {
             var query = new SystemStatusQuery();
+
             var model = queryProcessor.Process(query).ToArray();
+
+            foreach (var item in model)
+            {
+                item.DrillDownUrl = Url.Action("Index", "System", new { id = item.SystemGroupID });
+            }
+
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 

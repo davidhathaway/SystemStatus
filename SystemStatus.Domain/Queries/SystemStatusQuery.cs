@@ -9,6 +9,6 @@ namespace SystemStatus.Domain.Queries
 {
     public class SystemStatusQuery : IQuery<IEnumerable<SystemStatusViewModel>>
     {
-
+        public int? ParentGroupID { get; set; }
     }
 }

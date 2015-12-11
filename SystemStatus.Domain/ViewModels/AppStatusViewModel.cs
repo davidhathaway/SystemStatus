@@ -14,7 +14,7 @@ namespace SystemStatus.Domain.ViewModels
 
         public int? ParentID { get; set; }
 
-        public IEnumerable<int> Children { get; set; }
+        public IEnumerable<SystemStatusViewModel> Children { get; set; }
 
         public IEnumerable<AppStatusViewModel> Apps { get; set; }
     }
@@ -22,7 +22,7 @@ namespace SystemStatus.Domain.ViewModels
   
     public class AppStatusViewModel
     {
-        public int SystemID { get; set; }
+        public int SystemGroupID { get; set; }
         public int AppID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

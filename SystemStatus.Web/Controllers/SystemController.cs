@@ -31,6 +31,11 @@ namespace SystemStatus.Web.Controllers
         {
             var query = new SingleSystemGroupQuery() { SystemGroupID = id };
             var model = queryProcessor.Process(query);
+
+            //system groups
+            var systemQuery = new SystemStatusQuery() { ParentGroupID = id };
+            model.Children = queryProcessor.Process(systemQuery);
+
             return View(model);
         }
 
@@ -38,10 +43,13 @@ namespace SystemStatus.Web.Controllers
         {
             var query = new SingleSystemGroupQuery() { SystemGroupID = id };
             var model = queryProcessor.Process(query);
+
+            //system groups
+            var systemQuery = new SystemStatusQuery() { ParentGroupID = id };
+            model.Children = queryProcessor.Process(systemQuery);
+
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-
-     
 
         public PartialViewResult DrillDownDialog(int id)
         {

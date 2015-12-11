@@ -27,28 +27,27 @@ namespace SystemStatus.Domain.QueryHandlers
                     var groupApps = context.Apps.Where(x=>x.SystemGroupID == query.SystemGroupID).Select(x => new
                         {
                             App = x,
-                            Last10Events = x.Events
-                                .OrderByDescending(e => e.EventTime)
-                                .Take(10)
+                            LastEvent = x.Events.OrderByDescending(e => e.EventTime).FirstOrDefault()
                         }).ToList();
 
                     var apps = groupApps.Select(x => new AppStatusViewModel()
                     {
-                        SystemID = x.App.SystemGroupID,
+                        SystemGroupID = x.App.SystemGroupID,
                         AppID = x.App.AppID,
                         Name = x.App.Name,
                         Description = x.App.Description,
                         AgentName = x.App.AgentName,
-                        LastAppStatus = x.Last10Events.Count() > 0 ? x.Last10Events.First().AppStatus : AppStatus.None,
-                        LastEventTime = x.Last10Events.Count() > 0 ? x.Last10Events.First().EventTime : DateTime.MinValue,
-                        LastEventValue = x.Last10Events.Count() > 0 ? x.Last10Events.First().Value : null
+                        LastAppStatus = x.LastEvent !=null ? x.LastEvent.AppStatus : AppStatus.None,
+                        LastEventTime = x.LastEvent != null  ? x.LastEvent.EventTime : DateTime.MinValue,
+                        LastEventValue = x.LastEvent != null ? x.LastEvent.Value : null
                     }).ToList();
+
+
 
                     return new SystemGroupViewModel()
                     {
                         Apps = apps,
                         Name = group.Name,
-                        Children = group.ChildGroups.Select(x => x.SystemGroupID).ToArray(),
                         ParentID = group.ParentID,
                         SystemGroupID = group.SystemGroupID
                     };
