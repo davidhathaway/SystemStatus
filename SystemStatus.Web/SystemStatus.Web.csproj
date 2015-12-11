@@ -331,6 +331,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\System\CreateSubSystemDialog.cshtml" />
+    <Content Include="Views\Shared\_Templates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

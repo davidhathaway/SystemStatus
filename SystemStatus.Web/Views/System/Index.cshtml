@@ -44,26 +44,13 @@
 </div>
 
 <div class="row">
-    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home", new { id = Model.SystemGroupID })" data-bind="template: { name: 'appItemTemplate', foreach: items, as: 'item' }"></ul>
+    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home", new { id = Model.SystemGroupID })" data-bind="template: { name: 'systemItemTemplate', foreach: Systems, as: 'item' }"></ul>
 </div>
 
-<script type="text/html" id="appItemTemplate">
-    <li class="app-item" data-bind="">
-        <div class="app-item-inner" data-bind="css: AppStatusClass, click:drilldown">
-            <h4 data-bind="text: Name"></h4>
-            <p>
-                <span data-bind="if: AgentName" class="app-item-description">
-                    Agent : 
-                    <span data-bind="text: AgentName"></span>
-                </span> 
-            </p>
-            @*<p>
-                <span class="app-item-description" data-bind="text: Description"></span>
-            </p>*@
-            <span class="app-item-status" data-bind="css: AppStatusTextClass, click:drilldown"><small data-bind="text: AppStatusText"></small></span>
-        </div>
-    </li>
-</script>
+
+<div class="row">
+    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home", new { id = Model.SystemGroupID })" data-bind="template: { name: 'appItemTemplate', foreach: Apps, as: 'item' }"></ul>
+</div>
 
 <div id="app-drilldown-section" data-url="@Url.Action("DrillDownDialog", "System", new { id = Model.SystemGroupID })"></div>
 
@@ -71,6 +58,4 @@
 
 <div id="system-create-section" data-url="@Url.Action("CreateSubSystemDialog", "System", new { id = Model.SystemGroupID })"></div>
 
-
-
-
+@Html.Partial("_Templates")

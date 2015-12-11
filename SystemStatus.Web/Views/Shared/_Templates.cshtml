@@ -1,0 +1,28 @@
+﻿
+
+<script type="text/html" id="systemItemTemplate">
+    <li class="system-item" data-bind="click: ViewGroup">
+        <div class="system-item-inner" data-bind="css: AppStatusClass">
+            <h1 data-bind="text: Name"></h1>
+        </div>
+    </li>
+</script>
+
+
+<script type="text/html" id="appItemTemplate">
+    <li class="app-item" data-bind="">
+        <div class="app-item-inner" data-bind="css: AppStatusClass, click:drilldown">
+            <h4 data-bind="text: Name"></h4>
+            <p>
+                <span data-bind="if: AgentName" class="app-item-description">
+                    Agent :
+                    <span data-bind="text: AgentName"></span>
+                </span>
+            </p>
+            @*<p>
+                    <span class="app-item-description" data-bind="text: Description"></span>
+                </p>*@
+            <span class="app-item-status" data-bind="css: AppStatusTextClass, click:drilldown"><small data-bind="text: AppStatusText"></small></span>
+        </div>
+    </li>
+</script>

@@ -3,7 +3,8 @@
 ;
 var AppViewKoModel = (function () {
     function AppViewKoModel() {
-        this.items = ko.observableArray([]);
+        this.Apps = ko.observableArray([]);
+        this.Systems = ko.observableArray([]);
     }
     AppViewKoModel.prototype.RefreshAll = function () {
         var _this = this;
@@ -16,19 +17,26 @@ var AppViewKoModel = (function () {
     };
     AppViewKoModel.prototype.Load = function (data) {
         //load model
-        this.items.removeAll();
+        this.Apps.removeAll();
         if (data.Apps) {
             for (var i = 0; i < data.Apps.length; i++) {
                 var itemModel = data.Apps[i];
                 var appItem = new AppStatusKoModel(this, itemModel);
-                this.items.push(appItem);
+                this.Apps.push(appItem);
+            }
+        }
+        if (data.Children) {
+            for (var i = 0; i < data.Children.length; i++) {
+                var sysModel = data.Children[i];
+                var sysItem = new SystemStatusKoModel(this, sysModel);
+                this.Systems.push(sysItem);
             }
         }
     };
     AppViewKoModel.prototype.UpdateItem = function (model) {
         if (model && model.AppID) {
             //find item
-            var match = ko.utils.arrayFirst(this.items(), function (item) {
+            var match = ko.utils.arrayFirst(this.Apps(), function (item) {
                 return model.AppID === item.AppID;
             });
             if (match) {
@@ -284,7 +292,7 @@ var AppEventKoModel = (function () {
 })();
 var SystemAppViewKoModel = (function () {
     function SystemAppViewKoModel() {
-        this.items = ko.observableArray([]);
+        this.Systems = ko.observableArray([]);
     }
     SystemAppViewKoModel.prototype.RefreshAll = function () {
         var _this = this;
@@ -297,17 +305,17 @@ var SystemAppViewKoModel = (function () {
     };
     SystemAppViewKoModel.prototype.Load = function (data) {
         //load model
-        this.items.removeAll();
+        this.Systems.removeAll();
         for (var i = 0; i < data.length; i++) {
             var itemModel = data[i];
             var appItem = new SystemStatusKoModel(this, itemModel);
-            this.items.push(appItem);
+            this.Systems.push(appItem);
         }
     };
     SystemAppViewKoModel.prototype.UpdateItem = function (model) {
         if (model && model.SystemID) {
             //find item
-            var match = ko.utils.arrayFirst(this.items(), function (item) {
+            var match = ko.utils.arrayFirst(this.Systems(), function (item) {
                 return model.SystemGroupID === item.SystemGroupID;
             });
             if (match) {

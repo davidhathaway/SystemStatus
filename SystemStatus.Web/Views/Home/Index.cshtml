@@ -29,18 +29,12 @@
     </div>
 </div>
 <div class="row">
-    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home")" data-bind="template: { name: 'appItemTemplate', foreach: items, as: 'item' }"></ul>
+    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home")" data-bind="template: { name: 'systemItemTemplate', foreach: items, as: 'item' }"></ul>
 </div>
 
-<script type="text/html" id="appItemTemplate">
-    <li class="system-item" data-bind="click: ViewGroup">
-        <div class="system-item-inner" data-bind="css: AppStatusClass">
-            <h1 data-bind="text: Name"></h1>
-        </div>
-    </li>
-</script>
-
 <div id="system-create-section" data-url="@Url.Action("CreateSystemDialog", "Home")"></div>
+
+@Html.Partial("_Templates")
 
 
 

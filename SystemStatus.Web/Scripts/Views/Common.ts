@@ -7,6 +7,7 @@ interface SystemGroupViewModel {
     Name: string;
     ParentID?: number;
     Apps: AppStatusViewModel[];
+    Children: SystemStatusViewModel[];
 }
 
 interface SystemStatusViewModel {
@@ -38,9 +39,11 @@ interface AppEventViewModel {
 }
 
 class AppViewKoModel {
-    public items: KnockoutObservableArray<AppStatusKoModel>;
+    public Apps: KnockoutObservableArray<AppStatusKoModel>;
+    public Systems: KnockoutObservableArray<SystemStatusKoModel>;
     constructor() {
-        this.items = ko.observableArray([]);
+        this.Apps = ko.observableArray([]);
+        this.Systems = ko.observableArray([]);
     }
 
     RefreshAll() {
@@ -55,13 +58,21 @@ class AppViewKoModel {
 
     Load(data: SystemGroupViewModel) {
         //load model
-        this.items.removeAll();
+        this.Apps.removeAll();
 
         if (data.Apps) {
             for (var i = 0; i < data.Apps.length; i++) {
                 var itemModel = data.Apps[i];
                 var appItem = new AppStatusKoModel(this, itemModel);
-                this.items.push(appItem);
+                this.Apps.push(appItem);
+            }
+        }
+
+        if (data.Children) {
+            for (var i = 0; i < data.Children.length; i++) {
+                var sysModel = data.Children[i];
+                var sysItem = new SystemStatusKoModel(this, sysModel);
+                this.Systems.push(sysItem);
             }
         }
     }
@@ -69,7 +80,7 @@ class AppViewKoModel {
     UpdateItem(model) {
         if (model && model.AppID) {
             //find item
-            var match = ko.utils.arrayFirst(this.items(), function (item) {
+            var match = ko.utils.arrayFirst(this.Apps(), function (item) {
                 return model.AppID === item.AppID;
             });
 
@@ -406,9 +417,9 @@ class AppEventKoModel {
 }
 
 class SystemAppViewKoModel {
-    public items: KnockoutObservableArray<SystemStatusKoModel>;
+    public Systems: KnockoutObservableArray<SystemStatusKoModel>;
     constructor() {
-        this.items = ko.observableArray([]);
+        this.Systems = ko.observableArray([]);
     }
 
     RefreshAll() {
@@ -423,18 +434,18 @@ class SystemAppViewKoModel {
 
     Load(data: Array<SystemStatusViewModel>) {
         //load model
-        this.items.removeAll();
+        this.Systems.removeAll();
         for (var i = 0; i < data.length; i++) {
             var itemModel = data[i];
             var appItem = new SystemStatusKoModel(this, itemModel);
-            this.items.push(appItem);
+            this.Systems.push(appItem);
         }
     }
 
     UpdateItem(model) {
         if (model && model.SystemID) {
             //find item
-            var match = ko.utils.arrayFirst(this.items(), function (item) {
+            var match = ko.utils.arrayFirst(this.Systems(), function (item) {
                 return model.SystemGroupID === item.SystemGroupID;
             });
 
@@ -485,7 +496,7 @@ class SystemAppViewKoModel {
 }
 
 class SystemStatusKoModel {
-    public App: SystemAppViewKoModel;
+    public App: any;
     public SystemGroupID: number;
     public Name: string;
     public DrillDownUrl: string;
@@ -496,7 +507,7 @@ class SystemStatusKoModel {
     public AppStatusClass: KnockoutComputed<string>;
     public AppStatusTextClass: KnockoutComputed<string>;
 
-    constructor(app: SystemAppViewKoModel, model: SystemStatusViewModel) {
+    constructor(app: any, model: SystemStatusViewModel) {
         this.App = app;
         this.SystemGroupID = model.SystemGroupID;
         this.Name = model.Name;
