@@ -36,6 +36,11 @@ namespace SystemStatus.Web.Controllers
             var systemQuery = new SystemStatusQuery() { ParentGroupID = id };
             model.Children = queryProcessor.Process(systemQuery);
 
+            foreach (var item in model.Children)
+            {
+                item.DrillDownUrl = Url.Action("Index", "System", new { id = item.SystemGroupID });
+            }
+
             return View(model);
         }
 
@@ -47,6 +52,11 @@ namespace SystemStatus.Web.Controllers
             //system groups
             var systemQuery = new SystemStatusQuery() { ParentGroupID = id };
             model.Children = queryProcessor.Process(systemQuery);
+
+            foreach (var item in model.Children)
+            {
+                item.DrillDownUrl = Url.Action("Index", "System", new { id = item.SystemGroupID });
+            }
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }

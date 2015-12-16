@@ -16,10 +16,12 @@ namespace SystemStatus.Domain.QueryHandlers
 
             using (var context = new SystemStatusModel())
             {
-                context.Configuration.ProxyCreationEnabled = false;
+                context.Configuration.ProxyCreationEnabled = true;
+                context.Configuration.LazyLoadingEnabled = true;
 
                 var group = context.Systems.Where(x => x.SystemGroupID == query.SystemGroupID)
                     .Include(x=>x.Apps)
+                    .Include(x=>x.Parent)
                     .FirstOrDefault();
 
                 if (group != null)
@@ -42,13 +44,11 @@ namespace SystemStatus.Domain.QueryHandlers
                         LastEventValue = x.LastEvent != null ? x.LastEvent.Value : null
                     }).ToList();
 
-
-
                     return new SystemGroupViewModel()
                     {
                         Apps = apps,
                         Name = group.Name,
-                        ParentID = group.ParentID,
+                        Parents = GetParents(group),
                         SystemGroupID = group.SystemGroupID
                     };
                 }
@@ -58,6 +58,30 @@ namespace SystemStatus.Domain.QueryHandlers
                 }
             }
 
+        }
+        private IEnumerable<ParentViewModel> GetParents(SystemGroup group)
+        {
+            List<ParentViewModel> parents = new List<ParentViewModel>();
+
+            if (group.Parent != null)
+            {
+                var parent = group.Parent;
+
+                parents.Add(new ParentViewModel()
+                {
+                    ID = parent.SystemGroupID,
+                    Name = parent.Name
+     
+                });
+
+                if(parent.Parent!=null)
+                {
+                    var parentParents = GetParents(parent);
+                    parents.AddRange(parentParents);
+                }
+            }
+
+            return parents;
         }
     }
 }

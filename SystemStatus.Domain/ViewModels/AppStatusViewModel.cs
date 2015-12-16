@@ -12,13 +12,19 @@ namespace SystemStatus.Domain.ViewModels
 
         public string Name { get; set; }
 
-        public int? ParentID { get; set; }
+        public IEnumerable<ParentViewModel> Parents { get; set; }
 
         public IEnumerable<SystemStatusViewModel> Children { get; set; }
 
         public IEnumerable<AppStatusViewModel> Apps { get; set; }
     }
 
+    public class ParentViewModel
+    {
+        public int ID { get; set; }
+
+        public string Name { get; set; }
+    }
   
     public class AppStatusViewModel
     {

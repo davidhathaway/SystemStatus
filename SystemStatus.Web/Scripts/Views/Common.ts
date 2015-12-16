@@ -8,6 +8,7 @@ interface SystemGroupViewModel {
     ParentID?: number;
     Apps: AppStatusViewModel[];
     Children: SystemStatusViewModel[];
+    Parents: ParentViewModel[];
 }
 
 interface SystemStatusViewModel {
@@ -16,6 +17,12 @@ interface SystemStatusViewModel {
     AppStatuses: AppStatusViewModel[];
     DrillDownUrl: string;
 };
+
+interface ParentViewModel
+{
+    ID : number;
+    Name: string;
+}
 
 interface AppStatusViewModel {
     SystemGroupID: number;
@@ -39,8 +46,13 @@ interface AppEventViewModel {
 }
 
 class AppViewKoModel {
+
+
+
     public Apps: KnockoutObservableArray<AppStatusKoModel>;
+
     public Systems: KnockoutObservableArray<SystemStatusKoModel>;
+
     constructor() {
         this.Apps = ko.observableArray([]);
         this.Systems = ko.observableArray([]);

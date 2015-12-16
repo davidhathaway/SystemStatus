@@ -20,10 +20,23 @@
 @{
     ViewBag.Title = "System Status - " + Model.Name;
 }
-<div class="system-title row">
+<div class="row">
     
     <div class="col-md-12">
-        <h2>@Model.Name</h2>
+
+        <div class="system-breadcrumb">
+            <ul>
+                @foreach (var parent in Model.Parents)
+            {
+                    <li>
+                        @Html.ActionLink(parent.Name, "Index", "System", new { id = parent.ID }, new { })<span class="system-breadcrumb-delimiter">></span>
+                    </li>
+                }
+                <li><span class="system-breadcrumb-final">@Model.Name</span></li>
+            </ul>
+        </div>
+
+
     </div>
 
 

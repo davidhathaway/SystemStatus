@@ -164,13 +164,7 @@ legend{
     padding-top:0;
 }
 
-.system-title h1 , .system-title h2, .system-title h3, .system-title h4
-{
-    padding:10px;
-    background-color:#ccc;
-    color:white;
-    margin-top:0;
-}
+
 
 .subsystem-title h1, .subsystem-title h2, .subsystem-title h3, .subsystem-title h4
 {
@@ -181,6 +175,49 @@ legend{
 {
      margin-top:15px;
      background-color:#F1C40F;
+}
+
+.system-breadcrumb
+{
+    padding:10px;
+    background-color: rgb(127, 140, 141);
+    margin-top:0;
+    color:white;
+}
+
+.system-breadcrumb ul
+{
+    overflow:hidden;
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.system-breadcrumb ul li
+{
+    list-style:none;
+    padding:0;
+    margin:0;
+    float:left;
+}
+
+.system-breadcrumb ul li a {
+    font-size: 20px;
+    color:rgb(236, 240, 241);
+    margin-right: 5px;
+
+}
+
+.system-breadcrumb ul li .system-breadcrumb-delimiter
+{
+    font-size: 20px;
+    color:#ccc;
+    margin-right: 5px;
+}
+.system-breadcrumb ul li .system-breadcrumb-final
+ {
+    font-size: 20px;
+    color:rgb(44, 62, 80);
 }
 
 
