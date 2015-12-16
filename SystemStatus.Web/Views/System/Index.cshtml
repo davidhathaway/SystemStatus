@@ -21,26 +21,31 @@
     ViewBag.Title = "System Status - " + Model.Name;
 }
 <div class="row">
-    
     <div class="col-md-12">
 
         <div class="system-breadcrumb">
             <ul>
                 @foreach (var parent in Model.Parents)
-            {
+                {
                     <li>
                         @Html.ActionLink(parent.Name, "Index", "System", new { id = parent.ID }, new { })<span class="system-breadcrumb-delimiter">></span>
                     </li>
                 }
-                <li><span class="system-breadcrumb-final">@Model.Name</span></li>
+                <li>
+                    <span class="system-breadcrumb-final">@Model.Name</span>
+                  
+                </li>
+                <li class="pull-right">
+                    <button class="btn btn-primary btn-sm" type="button" title="Edit" data-bind="click: EditSystem">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                </li>
+               
             </ul>
+    
         </div>
 
-
     </div>
-
-
-   
 </div>
 
 <div class="row button-row">
@@ -57,12 +62,12 @@
 </div>
 
 <div class="row">
-    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home", new { id = Model.SystemGroupID })" data-bind="template: { name: 'systemItemTemplate', foreach: Systems, as: 'item' }"></ul>
+    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "System", new { id = Model.SystemGroupID })" data-bind="template: { name: 'systemItemTemplate', foreach: Systems, as: 'item' }"></ul>
 </div>
 
 
 <div class="row">
-    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "Home", new { id = Model.SystemGroupID })" data-bind="template: { name: 'appItemTemplate', foreach: Apps, as: 'item' }"></ul>
+    <ul class="app-list" data-refreshall="@Url.Action("RefreshAll", "System", new { id = Model.SystemGroupID })" data-bind="template: { name: 'appItemTemplate', foreach: Apps, as: 'item' }"></ul>
 </div>
 
 <div id="app-drilldown-section" data-url="@Url.Action("DrillDownDialog", "System", new { id = Model.SystemGroupID })"></div>
@@ -70,5 +75,9 @@
 <div id="app-create-section" data-url="@Url.Action("CreateAppDialog", "System", new { id = Model.SystemGroupID })"></div>
 
 <div id="system-create-section" data-url="@Url.Action("CreateSubSystemDialog", "System", new { id = Model.SystemGroupID })"></div>
+
+<div id="system-edit-section" data-url="@Url.Action("EditSystemDialog", "System", new { id = Model.SystemGroupID })"></div>
+
+<div id="app-edit-section" data-url="@Url.Action("EditAppDialog", "System")"></div>
 
 @Html.Partial("_Templates")

@@ -1,0 +1,88 @@
+﻿@model EditAppCommand
+
+<div class="modal fade" id="app-edit-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Edit Application</h4>
+            </div>
+            <div class="modal-body" id="app-edit-modal-body">
+
+                @using (Html.BeginForm("EditAppDialog", "System", FormMethod.Post, new { @class = "form", id = "app-edit-form" }))
+                {
+                    <fieldset>
+                        <legend>Create - Form</legend>
+
+                            @Html.HiddenFor(x => x.AppID)
+
+                            @Html.HiddenFor(x=>x.SystemGroupID)
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(m => m.Name)
+                                    @Html.TextBoxFor(m => m.Name, new  { @class="form-control" })
+                                </div>
+                            </div>
+          
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(m => m.AgentName)
+                                @Html.TextBoxFor(m => m.AgentName, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                 
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(m => m.Description)
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                                </div>
+                            </div>
+                    
+               
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(m => m.AppEventHookTypeID)
+                                    @Html.DropDownListFor(m => m.AppEventHookTypeID, Model.GetAppEventHooks().Select(x => new SelectListItem() { Value = x.Key, Text = x.Value }).ToList(), new  { @class="form-control" })
+                                </div>
+                            </div>
+               
+
+                 
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(m => m.Command)
+                                    @Html.TextBoxFor(m => m.Command, new { @class = "form-control" })
+                                </div>
+                            </div>
+                 
+
+                   
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.FastStatusLimit)
+                                    @Html.TextBoxFor(m => m.FastStatusLimit, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    @Html.LabelFor(m => m.NormalStatusLimit)
+                                    @Html.TextBoxFor(m => m.NormalStatusLimit, new { @class = "form-control" })
+                                </div>
+                            </div>
+                
+
+                    </fieldset>
+
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default create-dialog-save">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+     
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

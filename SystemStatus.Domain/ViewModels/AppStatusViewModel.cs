@@ -5,7 +5,7 @@ using System.Web;
 using SystemStatus.Domain;
 
 namespace SystemStatus.Domain.ViewModels
-{
+{ 
     public class SystemGroupViewModel
     {
         public int SystemGroupID { get; set; }

@@ -15,11 +15,14 @@ namespace SystemStatus.Domain.QueryHandlers
         {
             using (var context = new SystemStatusModel())
             {
-                context.Configuration.ProxyCreationEnabled = false;
+                context.Configuration.ProxyCreationEnabled = true;
+                context.Configuration.LazyLoadingEnabled = true;
 
-                var qry = context.Systems.Include(x => x.Apps);
+                var qry = context.Systems
+                    .Include(x => x.Apps)
+                    .Include(x => x.ChildGroups);
 
-                if(query.ParentGroupID.HasValue)
+                if (query.ParentGroupID.HasValue)
                 {
                     qry = qry.Where(x => x.ParentID == query.ParentGroupID.Value);
                 }
@@ -27,38 +30,54 @@ namespace SystemStatus.Domain.QueryHandlers
                 {
                     qry = qry.Where(x => x.ParentID == null);
                 }
-
-                var systems = qry
-                    .Select(x=> new
-                    {
-                        System = x,
-                        Apps = x.Apps.Select(a => new
-                        {
-                            App = a,
-                            LastEvent = a.Events.OrderByDescending(o => o.EventTime).FirstOrDefault()
-                        })
-                    })
-                    .ToList();
-
-                var model = systems.Select(x => new SystemStatusViewModel()
+       
+                var model = qry.ToList().Select(x => new SystemStatusViewModel()
                 {
-                    SystemGroupID = x.System.SystemGroupID,
-                    Name = x.System.Name,
-                    AppStatuses = x.Apps.Select(a => new AppStatusViewModel()
-                    {
-                        AppID = a.App.AppID,
-                        AgentName = a.App.AgentName,
-                        Description = a.App.Description,
-                        LastAppStatus = a.LastEvent != null ? a.LastEvent.AppStatus : AppStatus.None ,
-                        LastEventTime = a.LastEvent != null ? a.LastEvent.EventTime : DateTime.MinValue,
-                        LastEventValue = a.LastEvent != null ? a.LastEvent.Value : null,
-                        Name = a.App.Name,
-                        SystemGroupID = a.App.SystemGroupID
-                    }).ToArray()
+                    SystemGroupID = x.SystemGroupID,
+                    Name = x.Name,
+                    AppStatuses = GetAllApps(x).ToArray()
                 }).ToList();
 
                 return model;
             }
+        }
+
+        private IEnumerable<AppStatusViewModel> GetAllApps(SystemGroup group)
+        {
+            List<AppStatusViewModel> allApps = new List<AppStatusViewModel>();
+
+            var appsWithLastEvent = group.Apps.Select(x => new
+            {
+                App = x,
+                LastEvent = x.Events.OrderByDescending(o => o.EventTime).FirstOrDefault()
+            }).ToList();
+
+            if (appsWithLastEvent.Count > 0)
+            {
+                var apps = appsWithLastEvent.Select(a => new AppStatusViewModel()
+                {
+                    AppID = a.App.AppID,
+                    AgentName = a.App.AgentName,
+                    Description = a.App.Description,
+                    LastAppStatus = a.LastEvent != null ? a.LastEvent.AppStatus : AppStatus.None,
+                    LastEventTime = a.LastEvent != null ? a.LastEvent.EventTime : DateTime.MinValue,
+                    LastEventValue = a.LastEvent != null ? a.LastEvent.Value : null,
+                    Name = a.App.Name,
+                    SystemGroupID = a.App.SystemGroupID
+                }).ToList();
+                allApps.AddRange(apps);
+            }
+
+            var childGroups = group.ChildGroups.ToList();
+
+            foreach (var child in childGroups)
+            {
+                var childApps = GetAllApps(child);
+                allApps.AddRange(childApps);
+            }
+
+            return allApps;
+
         }
     }
 }

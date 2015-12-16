@@ -332,6 +332,8 @@
     </Content>
     <Content Include="Views\System\CreateSubSystemDialog.cshtml" />
     <Content Include="Views\Shared\_Templates.cshtml" />
+    <Content Include="Views\System\EditAppDialog.cshtml" />
+    <Content Include="Views\System\EditSystemDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

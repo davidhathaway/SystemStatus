@@ -10,12 +10,20 @@ namespace SystemStatus.Domain
     public class SystemGroup
     {
         public virtual int SystemGroupID { get; set; }
+
         public string Name { get; set; }
 
         public virtual int? ParentID { get; set; }
 
+        //public virtual AppEvent LastWorstAppStatus { get; set; }
+
+        //public TimeSpan? UpTime { get; set; }
+
+        //public TimeSpan? DownTime { get; set; }
+
         [ForeignKey("ParentID")]
         public virtual SystemGroup Parent { get; set; }
+
         public virtual ICollection<SystemGroup> ChildGroups { get; set; }
 
         public virtual ICollection<App> Apps { get; set; }

@@ -6,6 +6,39 @@ var AppViewKoModel = (function () {
         this.Apps = ko.observableArray([]);
         this.Systems = ko.observableArray([]);
     }
+    AppViewKoModel.prototype.EditSystem = function () {
+        var _this = this;
+        var section = $("#system-edit-section");
+        var url = section.data("url");
+        section.empty();
+        section.load(url, function () {
+            var dlg = $("#system-edit-modal");
+            dlg.modal({ show: true });
+            var form = $("#system-edit-form");
+            //hook save
+            $(".create-dialog-save").click(function () {
+                //submit form  
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize()
+                }).done(function (data) {
+                    if (data.Success) {
+                        dlg.modal("hide");
+                        //get new app status view model and add it.
+                        _this.RefreshAll();
+                    }
+                    else {
+                        //set errors
+                        if (data.Errors && data.Errros.length) {
+                            for (var e = 0; e < data.Errors.length; e++) {
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    };
     AppViewKoModel.prototype.RefreshAll = function () {
         var _this = this;
         var url = $(".app-list").data("refreshall");
@@ -25,6 +58,7 @@ var AppViewKoModel = (function () {
                 this.Apps.push(appItem);
             }
         }
+        this.Systems.removeAll();
         if (data.Children) {
             for (var i = 0; i < data.Children.length; i++) {
                 var sysModel = data.Children[i];
@@ -168,6 +202,39 @@ var AppStatusKoModel = (function () {
             return _this.AppStatusClass() + "-text";
         }, this);
     }
+    AppStatusKoModel.prototype.edit = function () {
+        var section = $("#app-edit-section");
+        var url = section.data("url") + "/" + this.AppID;
+        section.empty();
+        var self = this;
+        section.load(url, function () {
+            var dlg = $("#app-edit-modal");
+            dlg.modal({ show: true });
+            var form = $("#app-edit-form");
+            //hook save
+            $(".create-dialog-save").click(function () {
+                //submit form  
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize()
+                }).done(function (data) {
+                    if (data.Success) {
+                        dlg.modal("hide");
+                        //get new app status view model and add it.
+                        self.App.RefreshAll();
+                    }
+                    else {
+                        //set errors
+                        if (data.Errors && data.Errros.length) {
+                            for (var e = 0; e < data.Errors.length; e++) {
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    };
     AppStatusKoModel.prototype.getAppModel = function () {
         return $("#app-drilldown-section").data("AppStatusKoModel");
     };
@@ -294,6 +361,39 @@ var SystemAppViewKoModel = (function () {
     function SystemAppViewKoModel() {
         this.Systems = ko.observableArray([]);
     }
+    SystemAppViewKoModel.prototype.EditSystem = function () {
+        var _this = this;
+        var section = $("#system-edit-section");
+        var url = section.data("url");
+        section.empty();
+        section.load(url, function () {
+            var dlg = $("#system-edit-modal");
+            dlg.modal({ show: true });
+            var form = $("#system-edit-form");
+            //hook save
+            $(".create-dialog-save").click(function () {
+                //submit form  
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: form.serialize()
+                }).done(function (data) {
+                    if (data.Success) {
+                        dlg.modal("hide");
+                        //get new app status view model and add it.
+                        _this.RefreshAll();
+                    }
+                    else {
+                        //set errors
+                        if (data.Errors && data.Errros.length) {
+                            for (var e = 0; e < data.Errors.length; e++) {
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    };
     SystemAppViewKoModel.prototype.RefreshAll = function () {
         var _this = this;
         var url = $(".app-list").data("refreshall");
@@ -327,8 +427,8 @@ var SystemAppViewKoModel = (function () {
         var _this = this;
         var section = $("#system-create-section");
         var url = section.data("url");
-        $("#system-create-section").empty();
-        $("#system-create-section").load(url, function () {
+        section.empty();
+        section.load(url, function () {
             var dlg = $("#system-create-modal");
             dlg.modal({ show: true });
             var form = $("#system-create-form");

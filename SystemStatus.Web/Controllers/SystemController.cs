@@ -17,24 +17,30 @@ namespace SystemStatus.Web.Controllers
         private IQueryProcessor queryProcessor;
         private ICommandHandler<CreateAppCommand> createAppHandler;
         private ICommandHandler<CreateSystemCommand> createSystemHandler;
+        private ICommandHandler<EditSystemCommand> editSystemHandler;
+        private ICommandHandler<EditAppCommand> editAppHandler;
 
         public SystemController(IQueryProcessor queryProcessor, 
             ICommandHandler<CreateAppCommand> createAppHandler,
-            ICommandHandler<CreateSystemCommand> createSystemHandler)
+            ICommandHandler<CreateSystemCommand> createSystemHandler,
+            ICommandHandler<EditSystemCommand> editSystemHandler,
+            ICommandHandler<EditAppCommand> editAppHandler)
         {
             this.queryProcessor = queryProcessor;
             this.createAppHandler = createAppHandler;
             this.createSystemHandler = createSystemHandler;
+            this.editSystemHandler = editSystemHandler;
+            this.editAppHandler = editAppHandler;
         }
 
         public ActionResult Index(int id)
         {
             var query = new SingleSystemGroupQuery() { SystemGroupID = id };
-            var model = queryProcessor.Process(query);
+            var model = this.queryProcessor.Process(query);
 
             //system groups
             var systemQuery = new SystemStatusQuery() { ParentGroupID = id };
-            model.Children = queryProcessor.Process(systemQuery);
+            model.Children = this.queryProcessor.Process(systemQuery);
 
             foreach (var item in model.Children)
             {
@@ -47,7 +53,7 @@ namespace SystemStatus.Web.Controllers
         public JsonResult RefreshAll(int id)
         {
             var query = new SingleSystemGroupQuery() { SystemGroupID = id };
-            var model = queryProcessor.Process(query);
+            var model = this.queryProcessor.Process(query);
 
             //system groups
             var systemQuery = new SystemStatusQuery() { ParentGroupID = id };
@@ -64,7 +70,7 @@ namespace SystemStatus.Web.Controllers
         public PartialViewResult DrillDownDialog(int id)
         {
             var query = new AppDrillDownQuery() { AppID = id };
-            AppDrilldownViewModel model = queryProcessor.Process(query);
+            AppDrilldownViewModel model = this.queryProcessor.Process(query);
             return PartialView(model);
         }
 
@@ -80,7 +86,7 @@ namespace SystemStatus.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                createAppHandler
+                this.createAppHandler
                     .Handle(model)
                     .MergeWith(this.ModelState);
             }
@@ -103,7 +109,55 @@ namespace SystemStatus.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                createSystemHandler
+                this.createSystemHandler
+                    .Handle(model)
+                    .MergeWith(this.ModelState);
+            }
+
+            return Json(new
+            {
+                Success = ModelState.IsValid,
+                Errors = ModelState.Errors()
+            });
+        }
+
+        public PartialViewResult EditSystemDialog(int id)
+        {
+            var query = new EditSystemCommandQuery() { SystemGroupID = id };
+            var model = this.queryProcessor.Process(query);
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public JsonResult EditSystemDialog(EditSystemCommand model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.editSystemHandler
+                    .Handle(model)
+                    .MergeWith(this.ModelState);
+            }
+
+            return Json(new
+            {
+                Success = ModelState.IsValid,
+                Errors = ModelState.Errors()
+            });
+        }
+
+        public PartialViewResult EditAppDialog(int id)
+        {
+            var query = new EditAppCommandQuery() { AppID = id };
+            var model = this.queryProcessor.Process(query);
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public JsonResult EditAppDialog(EditAppCommand model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.editAppHandler
                     .Handle(model)
                     .MergeWith(this.ModelState);
             }
