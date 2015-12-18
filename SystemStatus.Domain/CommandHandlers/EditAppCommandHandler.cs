@@ -41,6 +41,7 @@ namespace SystemStatus.Domain.Commands
                     current.AppEventHookTypeID = command.AppEventHookTypeID;
                     current.FastStatusLimit = command.FastStatusLimit;
                     current.NormalStatusLimit = command.NormalStatusLimit;
+                    current.IsSystemCritical = command.IsSystemCritical;
                     switch (command.AppEventHookTypeID)
                     {
                         case 1:

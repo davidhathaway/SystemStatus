@@ -13,6 +13,21 @@ namespace SystemStatus.Web.Common
 {
     public static class Extensions
     {  
+
+        public static List<SelectListItem> ToSelectList(this Dictionary<string, string> values)
+        {
+            return values.Select(x => new SelectListItem() { Value = x.Key, Text = x.Value }).ToList();
+        }
+
+        public static List<SelectListItem> ToSelectListWithNone(this Dictionary<string, string> values)
+        {
+            var items = values.Select(x => new SelectListItem() { Value = x.Key, Text = x.Value }).ToList();
+
+            items.Insert(0, new SelectListItem() { Value = "", Text = "None" });
+
+            return items;
+        }
+
         public static IHtmlString ModelToJsonRaw(this HtmlHelper helper)
         {
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(helper.ViewData.Model);

@@ -38,7 +38,8 @@ namespace SystemStatus.Domain.Commands
                     AppEventHookTypeID = command.AppEventHookTypeID,
                     FastStatusLimit = command.FastStatusLimit,
                     NormalStatusLimit = command.NormalStatusLimit,
-                    Active = true
+                    Active = true,
+                    IsSystemCritical = command.IsSystemCritical
                 };
 
                 switch (command.AppEventHookTypeID)

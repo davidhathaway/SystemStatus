@@ -22,7 +22,14 @@
                                     @Html.TextBoxFor(m => m.Name, new  { @class="form-control" })
                                 </div>
                             </div>
-          
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(m => m.IsSystemCritical)
+                                @Html.CheckBoxFor(m => m.IsSystemCritical, new { @class = "form-control" })
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-12">
                                 @Html.LabelFor(m => m.AgentName)

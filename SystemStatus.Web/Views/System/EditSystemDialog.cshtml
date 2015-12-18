@@ -17,12 +17,25 @@
 
                             @Html.HiddenFor(x => x.SystemGroupID)
 
-                            @Html.HiddenFor(x=>x.ParentGroupID)
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(m => m.ParentGroupID)
+                                    @Html.DropDownListFor(m => m.ParentGroupID, Model.PossibleParentGroups.ToSelectListWithNone(), new { @class = "form-control" })
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-md-12">
                                     @Html.LabelFor(m => m.Name)
                                     @Html.TextBoxFor(m => m.Name, new  { @class="form-control" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(m => m.IsSystemCritical)
+                                    @Html.CheckBoxFor(m => m.IsSystemCritical, new { @class = "form-control" })
                                 </div>
                             </div>
 

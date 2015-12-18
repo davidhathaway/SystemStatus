@@ -12,6 +12,8 @@ namespace SystemStatus.Domain.Commands
         [Required]
         public int AppID { get; set; }
 
+        [Display(Name = "System")]
+        [Required]
         public int SystemGroupID { get; set; }
 
         [Display(Name="Application Name")]
@@ -38,6 +40,10 @@ namespace SystemStatus.Domain.Commands
         [Display(Name = "Normal Limit")]
         public decimal NormalStatusLimit { get; set; }
 
+        [Display(Name = "System Critical")]
+        [Required]
+        public bool IsSystemCritical { get; set; }
+
         public Dictionary<string, string> GetAppEventHooks()
         {
             var result = new Dictionary<string, string>();
@@ -49,5 +55,8 @@ namespace SystemStatus.Domain.Commands
 
             return result;
         }
+
+        public Dictionary<string, string> PossibleSystemGroups { get; set; }
+        
     }
 }

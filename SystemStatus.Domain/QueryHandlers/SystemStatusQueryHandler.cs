@@ -35,11 +35,50 @@ namespace SystemStatus.Domain.QueryHandlers
                 {
                     SystemGroupID = x.SystemGroupID,
                     Name = x.Name,
-                    AppStatuses = GetAllApps(x).ToArray()
+                    SubSystems = GetSubSystems(x).ToArray()
                 }).ToList();
 
                 return model;
             }
+        }
+
+        private IEnumerable<SubSystemViewModel> GetSubSystems(SystemGroup group)
+        {
+
+            List<SubSystemViewModel> results = new List<SubSystemViewModel>();
+
+            var appsWithLastEvent = group.Apps.Select(x => new
+            {
+                App = x,
+                LastEvent = x.Events.OrderByDescending(o => o.EventTime).FirstOrDefault()
+            }).ToList();
+
+            var appStatus = appsWithLastEvent.Select(x => new SubSystemViewModel()
+            {
+                ID = x.App.AppID,
+                AppStatus = x.LastEvent == null ? AppStatus.None : x.LastEvent.AppStatus,
+                IsSystem = false,
+                Text = x.App.Name
+            });
+
+            results.AddRange(appStatus);
+
+            var systemsWithLastEvent = group.ChildGroups.Select(x => new {
+                System = x,
+                LastEvent = x.SystemEvents.OrderByDescending(o=>o.EventTime).FirstOrDefault()
+            }).ToList();
+
+            var systemStatus = systemsWithLastEvent.Select(x => new SubSystemViewModel() {
+                AppStatus = x.LastEvent == null ? AppStatus.None : (x.LastEvent.IsDown ? AppStatus.None : AppStatus.Fast),
+                ID = x.System.SystemGroupID,
+                IsSystem = true,
+                Text = x.System.Name
+            });
+
+            results.AddRange(systemStatus);
+
+            return results;
+
         }
 
         private IEnumerable<AppStatusViewModel> GetAllApps(SystemGroup group)

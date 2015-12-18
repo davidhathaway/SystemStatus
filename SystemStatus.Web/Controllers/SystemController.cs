@@ -45,6 +45,18 @@ namespace SystemStatus.Web.Controllers
             foreach (var item in model.Children)
             {
                 item.DrillDownUrl = Url.Action("Index", "System", new { id = item.SystemGroupID });
+
+                foreach (var status in item.SubSystems)
+                {
+                    if (status.IsSystem)
+                    {
+                        status.DrillDownUrl = Url.Action("Index", "System", new { id = status.ID });
+                    }
+                    else
+                    {
+                        status.DrillDownUrl = Url.Action("DrillDownDialog", "System", new { id = status.ID });
+                    }
+                }
             }
 
             return View(model);

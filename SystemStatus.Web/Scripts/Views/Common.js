@@ -5,6 +5,7 @@ var AppViewKoModel = (function () {
     function AppViewKoModel() {
         this.Apps = ko.observableArray([]);
         this.Systems = ko.observableArray([]);
+        this.Name = ko.observable(null);
     }
     AppViewKoModel.prototype.EditSystem = function () {
         var _this = this;
@@ -43,12 +44,14 @@ var AppViewKoModel = (function () {
         var _this = this;
         var url = $(".app-list").data("refreshall");
         $.getJSON(url, function (data, textStatus, jqXHR) {
-            if (data && data.length) {
+            if (data) {
                 _this.Load(data);
             }
         });
     };
     AppViewKoModel.prototype.Load = function (data) {
+        this.Model = data;
+        this.Name(data.Name);
         //load model
         this.Apps.removeAll();
         if (data.Apps) {
@@ -465,45 +468,24 @@ var SystemStatusKoModel = (function () {
         this.SystemGroupID = model.SystemGroupID;
         this.Name = model.Name;
         this.DrillDownUrl = model.DrillDownUrl;
-        this.LastAppStatuses = ko.observableArray(model.AppStatuses);
-        this.AppStatusClass = ko.computed(function () {
-            var systemStatus = 0;
-            var statuses = _this.LastAppStatuses();
-            if ($.isArray(statuses)) {
-                systemStatus = 4;
-                for (var i = 0; i < statuses.length; i++) {
-                    var status = statuses[i].LastAppStatus;
-                    if (status < systemStatus) {
-                        systemStatus = status;
-                    }
-                }
-            }
+        this.SubSystems = ko.observableArray(model.SubSystems);
+        this.EventTime = ko.observable(model.EventTime);
+        this.IsDown = ko.observable(model.IsDown);
+        this.StatusClass = ko.computed(function () {
             var statusClass = "app-status-error";
-            switch (systemStatus) {
-                case 0:
-                    statusClass = "app-status-none";
-                    break;
-                case 1:
-                    statusClass = "app-status-fast";
-                    break;
-                case 2:
-                    statusClass = "app-status-normal";
-                    break;
-                case 3:
-                    statusClass = "app-status-slow";
-                    break;
-                case 4:
-                    statusClass = "app-status-fast";
-                    break;
+            if (!_this.IsDown()) {
+                statusClass = "app-status-fast";
             }
             return statusClass;
         }, this);
-        this.AppStatusTextClass = ko.computed(function () {
-            return _this.AppStatusClass() + "-text";
+        this.StatusTextClass = ko.computed(function () {
+            return _this.StatusClass() + "-text";
         }, this);
     }
     SystemStatusKoModel.prototype.update = function (model) {
-        this.LastAppStatuses(model.AppStatuses);
+        this.SubSystems(model.SubSystems);
+        this.IsDown(model.IsDown);
+        this.EventTime(model.EventTime);
     };
     SystemStatusKoModel.prototype.ViewGroup = function () {
         //open group in new window?

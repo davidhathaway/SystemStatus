@@ -27,9 +27,13 @@ namespace SystemStatus.Domain
         public decimal FastStatusLimit { get; set; }
         public decimal NormalStatusLimit { get; set; }
 
+       
+        public bool IsSystemCritical { get; set; }
+
 
         public App()
         {
+            IsSystemCritical = false;
             Events = new List<AppEvent>();
         }
     }

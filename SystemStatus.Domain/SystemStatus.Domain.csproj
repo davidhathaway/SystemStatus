@@ -56,18 +56,17 @@
     <Compile Include="App.cs" />
     <Compile Include="AppEvent.cs" />
     <Compile Include="AppStatus.cs" />
-    <Compile Include="AppEventHook.cs" />
     <Compile Include="AppEventHookType.cs" />
-    <Compile Include="Commands\EditAppCommandHandler.cs" />
-    <Compile Include="Commands\EditSystemCommandHandler.cs" />
+    <Compile Include="CommandHandlers\EditAppCommandHandler.cs" />
+    <Compile Include="CommandHandlers\EditSystemCommandHandler.cs" />
     <Compile Include="Commands\EditSystemCommand.cs" />
     <Compile Include="Commands\EditAppCommand.cs" />
     <Compile Include="Commands\CreateSystemCommand.cs" />
     <Compile Include="Commands\CreateAppCommand.cs" />
-    <Compile Include="Commands\CreateSystemCommandHandler.cs" />
-    <Compile Include="Commands\CreateAppCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CreateSystemCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CreateAppCommandHandler.cs" />
     <Compile Include="Commands\CreateAppEventCommand.cs" />
-    <Compile Include="Commands\CreateAppEventCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CreateAppEventCommandHandler.cs" />
     <Compile Include="CQRS\CommandHandlerBase.cs" />
     <Compile Include="CQRS\CommandHandlerNotFoundException.cs" />
     <Compile Include="CQRS\CommandResult.cs" />
@@ -82,6 +81,18 @@
     <Compile Include="Migrations\201512111127275_Initial.cs" />
     <Compile Include="Migrations\201512111127275_Initial.Designer.cs">
       <DependentUpon>201512111127275_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512181113102_SystemEvents.cs" />
+    <Compile Include="Migrations\201512181113102_SystemEvents.Designer.cs">
+      <DependentUpon>201512181113102_SystemEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512181126492_SystemEvents1.cs" />
+    <Compile Include="Migrations\201512181126492_SystemEvents1.Designer.cs">
+      <DependentUpon>201512181126492_SystemEvents1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512181223084_SystemEvents2.cs" />
+    <Compile Include="Migrations\201512181223084_SystemEvents2.Designer.cs">
+      <DependentUpon>201512181223084_SystemEvents2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,6 +116,7 @@
     <Compile Include="QueryHandlers\SingleSystemGroupQueryHandler.cs" />
     <Compile Include="QueryHandlers\EditSystemCommandQueryHandler.cs" />
     <Compile Include="QueryHandlers\SystemStatusQueryHandler.cs" />
+    <Compile Include="SystemEvent.cs" />
     <Compile Include="SystemGroup.cs" />
     <Compile Include="SystemStatusModel.cs" />
     <Compile Include="ViewModels\AppDrilldownViewModel.cs" />
@@ -117,12 +129,19 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CommandHandlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512111127275_Initial.resx">
       <DependentUpon>201512111127275_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512181113102_SystemEvents.resx">
+      <DependentUpon>201512181113102_SystemEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512181126492_SystemEvents1.resx">
+      <DependentUpon>201512181126492_SystemEvents1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512181223084_SystemEvents2.resx">
+      <DependentUpon>201512181223084_SystemEvents2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

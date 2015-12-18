@@ -15,13 +15,20 @@ namespace SystemStatus.Domain.QueryHandlers
             using (var context = new SystemStatusModel())
             {
                 var group = context.Systems.FirstOrDefault(x => x.SystemGroupID == query.SystemGroupID);
+
                 if (group != null)
                 {
+                    var possibleParents = context.Systems
+                        .Where(x => x.ParentID == null && x.SystemGroupID != group.SystemGroupID)
+                        .ToDictionary(x=>x.SystemGroupID.ToString(), x=>x.Name);
+
                     return new EditSystemCommand()
                     {
                         Name = group.Name,
                         ParentGroupID = group.ParentID,
-                        SystemGroupID = group.SystemGroupID
+                        SystemGroupID = group.SystemGroupID,
+                        IsSystemCritical= group.IsSystemCritical,
+                        PossibleParentGroups = possibleParents
                     };
                 }
                 else

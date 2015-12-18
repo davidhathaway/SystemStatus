@@ -17,6 +17,11 @@ namespace SystemStatus.Domain.QueryHandlers
                 var entity = context.Apps.FirstOrDefault(x => x.AppID == query.AppID);
                 if (entity != null)
                 {
+
+                    var possibleGroups = context
+                        .Systems
+                        .ToDictionary(x => x.SystemGroupID.ToString(), x => x.Name);
+
                     return new Domain.Commands.EditAppCommand()
                     {
                         AppID = entity.AppID,
@@ -27,7 +32,9 @@ namespace SystemStatus.Domain.QueryHandlers
                         FastStatusLimit = entity.FastStatusLimit,
                         NormalStatusLimit = entity.NormalStatusLimit,
                         Name = entity.Name,
-                        SystemGroupID = entity.SystemGroupID
+                        SystemGroupID = entity.SystemGroupID,
+                        IsSystemCritical = entity.IsSystemCritical,
+                        PossibleSystemGroups = possibleGroups
                     };
                 }
                 else

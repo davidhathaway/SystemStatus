@@ -17,9 +17,8 @@ namespace SystemStatus.Domain
 
         //public virtual AppEvent LastWorstAppStatus { get; set; }
 
-        //public TimeSpan? UpTime { get; set; }
 
-        //public TimeSpan? DownTime { get; set; }
+        public bool IsSystemCritical { get; set; }
 
         [ForeignKey("ParentID")]
         public virtual SystemGroup Parent { get; set; }
@@ -27,6 +26,8 @@ namespace SystemStatus.Domain
         public virtual ICollection<SystemGroup> ChildGroups { get; set; }
 
         public virtual ICollection<App> Apps { get; set; }
+
+        public virtual ICollection<SystemEvent> SystemEvents { get; set; }
 
         public SystemGroup()
         {

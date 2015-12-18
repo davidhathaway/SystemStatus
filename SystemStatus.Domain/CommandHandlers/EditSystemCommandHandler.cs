@@ -32,14 +32,13 @@ namespace SystemStatus.Domain.Commands
                 if (current != null)
                 {
                     current.Name = command.Name;
-                    
                     current.ParentID = command.ParentGroupID;
-
+                    current.IsSystemCritical = command.IsSystemCritical;
                     context.SaveChanges();
                 }
                 else
                 {
-                    throw new KeyNotFoundException("System not found: " + current.SystemGroupID);
+                    throw new KeyNotFoundException("System not found: " + command.SystemGroupID);
                 }
   
             }

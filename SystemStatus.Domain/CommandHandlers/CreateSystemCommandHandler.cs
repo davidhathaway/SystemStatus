@@ -29,25 +29,13 @@ namespace SystemStatus.Domain.Commands
             using (var context = new SystemStatusModel())
             {
                 SystemGroup system;
-
-                if (command.ParentGroupID.HasValue)
+                system = new SystemGroup()
                 {
-                    system = new SystemGroup()
-                    {
-                        ParentID = command.ParentGroupID,
-                        Name = command.Name
-                    };
-                }
-                else
-                {
-                    system = new SystemGroup()
-                    {
-                        Name = command.Name
-                    };
-                }
-
+                    ParentID = command.ParentGroupID,
+                    Name = command.Name,
+                    IsSystemCritical = command.IsSystemCritical
+                };
                 context.Systems.Add(system);
-
                 context.SaveChanges();
             }
         }

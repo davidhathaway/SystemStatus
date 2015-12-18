@@ -13,6 +13,7 @@ namespace SystemStatus.Domain
 {
     public class SystemStatusModel : DbContext
     {
+        public DbSet<SystemEvent> SystemEvents { get; set; }
         public DbSet<SystemGroup> Systems { get; set; }
         public DbSet<App> Apps { get; set; }
         public DbSet<AppEvent> AppEvents { get; set; }

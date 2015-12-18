@@ -35,6 +35,10 @@ namespace SystemStatus.Domain.Commands
         [Display(Name = "Normal Limit")]
         public decimal NormalStatusLimit { get; set; }
 
+        [Display(Name = "System Critical")]
+        [Required]
+        public bool IsSystemCritical { get; set; }
+
         public Dictionary<string, string> GetAppEventHooks()
         {
             var result = new Dictionary<string, string>();

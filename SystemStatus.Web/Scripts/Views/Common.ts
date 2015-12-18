@@ -11,11 +11,22 @@ interface SystemGroupViewModel {
     Parents: ParentViewModel[];
 }
 
+interface SubSystemViewModel
+{
+     ID :number;
+     Text: string;
+     AppStatus: number;
+     IsSystem: boolean;
+     DrillDownUrl: string;
+}
+
 interface SystemStatusViewModel {
     SystemGroupID: number;
     Name: string;
-    AppStatuses: AppStatusViewModel[];
+    SubSystems: SubSystemViewModel[];
     DrillDownUrl: string;
+    EventTime?: any;
+    IsDown: boolean;
 };
 
 interface ParentViewModel
@@ -47,15 +58,15 @@ interface AppEventViewModel {
 
 class AppViewKoModel {
 
-
-
+    public Model: SystemGroupViewModel;
     public Apps: KnockoutObservableArray<AppStatusKoModel>;
-
     public Systems: KnockoutObservableArray<SystemStatusKoModel>;
+    public Name: KnockoutObservable<string>;
 
     constructor() {
         this.Apps = ko.observableArray([]);
         this.Systems = ko.observableArray([]);
+        this.Name = ko.observable(null);
     }
 
     EditSystem() {
@@ -95,17 +106,24 @@ class AppViewKoModel {
             });
         });
     }
-    RefreshAll() {
+
+    RefreshAll()
+    {
         var url = <any>$(".app-list").data("refreshall");
 
         $.getJSON(url, (data, textStatus, jqXHR) => {
-            if (data && data.length) {
+            if (data) {
                 this.Load(data);
             }
         });
     }
 
-    Load(data: SystemGroupViewModel) {
+    Load(data: SystemGroupViewModel)
+    {
+        this.Model = data;
+
+        this.Name(data.Name);
+
         //load model
         this.Apps.removeAll();
 
@@ -628,15 +646,22 @@ class SystemAppViewKoModel {
 
 class SystemStatusKoModel {
     public App: any;
+
     public SystemGroupID: number;
+
     public Name: string;
+
     public DrillDownUrl: string;
 
+    public EventTime: KnockoutObservable<any>;
 
+    public IsDown: KnockoutObservable<boolean>;
 
-    public LastAppStatuses: KnockoutObservableArray<any>;
-    public AppStatusClass: KnockoutComputed<string>;
-    public AppStatusTextClass: KnockoutComputed<string>;
+    public SubSystems: KnockoutObservableArray<SubSystemViewModel>;
+
+    public StatusClass: KnockoutComputed<string>;
+
+    public StatusTextClass: KnockoutComputed<string>;
 
     constructor(app: any, model: SystemStatusViewModel) {
         this.App = app;
@@ -644,53 +669,36 @@ class SystemStatusKoModel {
         this.Name = model.Name;
         this.DrillDownUrl = model.DrillDownUrl;
 
-        this.LastAppStatuses = ko.observableArray(model.AppStatuses);
+        this.SubSystems = ko.observableArray(model.SubSystems);
 
-        this.AppStatusClass = ko.computed(() => {
-            var systemStatus = 0;
+        this.EventTime = ko.observable(model.EventTime);
 
-            var statuses = this.LastAppStatuses();
-            if ($.isArray(statuses)) {
-                systemStatus = 4;
-                for (var i = 0; i < statuses.length; i++) {
-                    var status = statuses[i].LastAppStatus;
+        this.IsDown = ko.observable(model.IsDown);
 
-                    if (status < systemStatus) {
-                        systemStatus = status;
-                    }
-                }
-            }
-
+        this.StatusClass = ko.computed(() =>
+        {
             var statusClass = "app-status-error";
-            switch (systemStatus) {
-                case 0:
-                    statusClass = "app-status-none";
-                    break;
-                case 1:
-                    statusClass = "app-status-fast";
-                    break;
-                case 2:
-                    statusClass = "app-status-normal";
-                    break;
-                case 3:
-                    statusClass = "app-status-slow";
-                    break;
-                case 4:
-                    statusClass = "app-status-fast";
-                    break;
+
+            if (!this.IsDown())
+            {
+                statusClass = "app-status-fast";
             }
+  
             return statusClass;
         }, this);
 
-        this.AppStatusTextClass = ko.computed(() => {
-            return this.AppStatusClass() + "-text";
+        this.StatusTextClass = ko.computed(() => {
+            return this.StatusClass() + "-text";
 
         }, this);
 
     }
 
-    update(model: SystemStatusViewModel) {
-        this.LastAppStatuses(model.AppStatuses);
+    update(model: SystemStatusViewModel)
+    {
+        this.SubSystems(model.SubSystems);
+        this.IsDown(model.IsDown);
+        this.EventTime(model.EventTime);
     }
 
     ViewGroup() {
