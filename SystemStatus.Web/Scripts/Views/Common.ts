@@ -657,7 +657,7 @@ class SystemStatusKoModel {
 
     public IsDown: KnockoutObservable<boolean>;
 
-    public SubSystems: KnockoutObservableArray<SubSystemViewModel>;
+    public SubSystems: KnockoutObservableArray<SubSystemKoModel>;
 
     public StatusClass: KnockoutComputed<string>;
 
@@ -669,7 +669,17 @@ class SystemStatusKoModel {
         this.Name = model.Name;
         this.DrillDownUrl = model.DrillDownUrl;
 
-        this.SubSystems = ko.observableArray(model.SubSystems);
+
+
+        this.SubSystems = ko.observableArray([]);
+
+        for (var i = 0; i < model.SubSystems.length; i++) {
+            var itemModel = model.SubSystems[i];
+            var appItem = new SubSystemKoModel(this, itemModel);
+            this.SubSystems.push(appItem);
+        }
+
+       
 
         this.EventTime = ko.observable(model.EventTime);
 
@@ -696,7 +706,14 @@ class SystemStatusKoModel {
 
     update(model: SystemStatusViewModel)
     {
-        this.SubSystems(model.SubSystems);
+        this.SubSystems.removeAll();
+
+        for (var i = 0; i < model.SubSystems.length; i++) {
+            var itemModel = model.SubSystems[i];
+            var appItem = new SubSystemKoModel(this, itemModel);
+            this.SubSystems.push(appItem);
+        }
+
         this.IsDown(model.IsDown);
         this.EventTime(model.EventTime);
     }
@@ -706,4 +723,52 @@ class SystemStatusKoModel {
         window.open(this.DrillDownUrl);
     }
 
+}
+
+class SubSystemKoModel
+{
+    public ID: KnockoutObservable<number>;
+    public IsSystem: KnockoutObservable<boolean>;
+    public AppStatus: KnockoutObservable<number>;
+    public DrillDownUrl: KnockoutObservable<string>;
+    public Text: KnockoutObservable<string>;
+    public StatusClass: KnockoutComputed<string>;
+
+    constructor(app: SystemStatusKoModel, model: SubSystemViewModel)
+    {
+        this.ID = ko.observable(model.ID);
+
+        this.IsSystem = ko.observable(model.IsSystem);
+
+        this.AppStatus = ko.observable(model.AppStatus);
+
+        this.DrillDownUrl = ko.observable(model.DrillDownUrl);
+
+        this.Text = ko.observable(model.Text);
+
+        this.StatusClass = ko.computed(() =>
+        {
+            var statusClass = "app-status-error";
+
+            switch (this.AppStatus()) {
+                case 0:
+                    statusClass = "app-status-none";
+                    break;
+                case 1:
+                    statusClass = "app-status-fast";
+                    break;
+                case 2:
+                    statusClass = "app-status-normal";
+                    break;
+                case 3:
+                    statusClass = "app-status-slow";
+                    break;
+                case 4:
+                    statusClass = "app-status-fast";
+                    break;
+            }
+            return statusClass;
+        }, this);
+   
+    }
 }

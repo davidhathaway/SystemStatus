@@ -20,4 +20,3 @@ $(function () {
         console.log(e);
     });
 });
-//# sourceMappingURL=Index.js.map

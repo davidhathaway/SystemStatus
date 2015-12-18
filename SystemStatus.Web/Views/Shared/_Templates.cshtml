@@ -4,10 +4,19 @@
     <li class="system-item" data-bind="click: ViewGroup">
         <div class="system-item-inner" data-bind="css: StatusClass">
             <h1 data-bind="text: Name"></h1>
+            <ul class="subsystem-pip-list" data-bind="template: { name: 'subSystemItemTemplate', foreach: SubSystems, as: 'item' }"></ul>
         </div>
     </li>
 </script>
 
+<script type="text/html" id="subSystemItemTemplate">
+
+   <li>
+       <a data-bind="href: DrillDownUrl"><span class="subsystem-pip" data-bind="css: StatusClass"></span>
+       </a>
+   </li>
+
+</script>
 
 <script type="text/html" id="appItemTemplate">
     <li class="app-item" data-bind="">

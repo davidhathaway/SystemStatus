@@ -468,7 +468,12 @@ var SystemStatusKoModel = (function () {
         this.SystemGroupID = model.SystemGroupID;
         this.Name = model.Name;
         this.DrillDownUrl = model.DrillDownUrl;
-        this.SubSystems = ko.observableArray(model.SubSystems);
+        this.SubSystems = ko.observableArray([]);
+        for (var i = 0; i < model.SubSystems.length; i++) {
+            var itemModel = model.SubSystems[i];
+            var appItem = new SubSystemKoModel(this, itemModel);
+            this.SubSystems.push(appItem);
+        }
         this.EventTime = ko.observable(model.EventTime);
         this.IsDown = ko.observable(model.IsDown);
         this.StatusClass = ko.computed(function () {
@@ -483,7 +488,12 @@ var SystemStatusKoModel = (function () {
         }, this);
     }
     SystemStatusKoModel.prototype.update = function (model) {
-        this.SubSystems(model.SubSystems);
+        this.SubSystems.removeAll();
+        for (var i = 0; i < model.SubSystems.length; i++) {
+            var itemModel = model.SubSystems[i];
+            var appItem = new SubSystemKoModel(this, itemModel);
+            this.SubSystems.push(appItem);
+        }
         this.IsDown(model.IsDown);
         this.EventTime(model.EventTime);
     };
@@ -493,4 +503,35 @@ var SystemStatusKoModel = (function () {
     };
     return SystemStatusKoModel;
 })();
-//# sourceMappingURL=Common.js.map
+var SubSystemKoModel = (function () {
+    function SubSystemKoModel(app, model) {
+        var _this = this;
+        this.ID = ko.observable(model.ID);
+        this.IsSystem = ko.observable(model.IsSystem);
+        this.AppStatus = ko.observable(model.AppStatus);
+        this.DrillDownUrl = ko.observable(model.DrillDownUrl);
+        this.Text = ko.observable(model.Text);
+        this.StatusClass = ko.computed(function () {
+            var statusClass = "app-status-error";
+            switch (_this.AppStatus()) {
+                case 0:
+                    statusClass = "app-status-none";
+                    break;
+                case 1:
+                    statusClass = "app-status-fast";
+                    break;
+                case 2:
+                    statusClass = "app-status-normal";
+                    break;
+                case 3:
+                    statusClass = "app-status-slow";
+                    break;
+                case 4:
+                    statusClass = "app-status-fast";
+                    break;
+            }
+            return statusClass;
+        }, this);
+    }
+    return SubSystemKoModel;
+})();
