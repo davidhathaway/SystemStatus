@@ -1,10 +1,26 @@
 ﻿
 
 <script type="text/html" id="systemItemTemplate">
-    <li class="system-item" data-bind="click: ViewGroup">
+    <li class="system-item" >
         <div class="system-item-inner" data-bind="css: StatusClass">
-            <h1 data-bind="text: Name"></h1>
-            <ul class="subsystem-pip-list" data-bind="template: { name: 'subSystemItemTemplate', foreach: SubSystems, as: 'item' }"></ul>
+
+            <a data-bind="attr:{ href: DrillDownUrl}">
+                <h1 data-bind="text: Name"></h1>
+            </a>
+    
+            <div class="subsystem-status">
+
+                <ul class="subsystem-pip-list" data-bind="template: { name: 'subSystemItemTemplate', foreach: SubSystems, as: 'item' }"></ul>
+               
+                <span class="pull-right subsystem-status-text">
+                    <button type="button" class="btn btn-xs btn-link" data-bind="click: ViewGroup, attr: { title: Name }">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </span>
+             
+            </div>
+          
+
         </div>
     </li>
 </script>
@@ -12,7 +28,8 @@
 <script type="text/html" id="subSystemItemTemplate">
 
    <li>
-       <a data-bind="href: DrillDownUrl"><span class="subsystem-pip" data-bind="css: StatusClass"></span>
+       <a data-bind="attr: { href: DrillDownUrl , title: Text }">
+           <span class="label label-default" data-bind="css: StatusClass, text: Text"></span>
        </a>
    </li>
 

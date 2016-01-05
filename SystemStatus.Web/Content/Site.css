@@ -179,6 +179,49 @@ legend{
 {
     background-color:#b200ff;
 }
+.subsystem-status
+{
+    display: block;
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    padding:5px;
+    width:100%;
+    border-top:1px solid white;
+    height:40px;
+
+}
+.subsystem-status-text .btn-link
+{
+    color:white;
+}
+.subsystem-pip-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+.subsystem-pip-list li{
+    margin:0;
+    padding:0;
+    list-style:none;
+    margin-right:5px;
+    float:left;
+}
+/*.subsystem-pip-list li a {
+    height:100%;
+    width:100%;
+
+}*/
+/*.subsystem-pip
+{
+    height:100%;
+    width:100%;
+    display:inline-block;
+    position:relative;
+    line-height:1;
+    border: 1px solid white;
+    border-radius:2px;
+}*/
 
 .apps-title h1, .apps-title h2, .apps-title h3, .apps-title h4
 {

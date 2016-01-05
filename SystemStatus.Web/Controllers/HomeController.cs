@@ -28,9 +28,14 @@ namespace SystemStatus.Web.Controllers
             var query = new SystemStatusQuery();
             var model = queryProcessor.Process(query).ToArray();
 
-            foreach (var item in model)
+            foreach (var system in model)
             {
-                item.DrillDownUrl = Url.Action("Index", "System", new { id = item.SystemGroupID });
+                system.DrillDownUrl = Url.Action("Index", "System", new { id = system.SystemGroupID });
+
+                foreach (var sub in system.SubSystems)
+                {
+                    sub.DrillDownUrl = Url.Action("Index", "System", new { id = sub.ID });
+                }
             }
 
             return View(model);
