@@ -28,9 +28,17 @@
 <script type="text/html" id="subSystemItemTemplate">
 
    <li>
+       <!-- ko if: IsSystem -->
        <a data-bind="attr: { href: DrillDownUrl , title: Text }">
            <span class="label label-default" data-bind="css: StatusClass, text: Text"></span>
        </a>
+       <!-- /ko -->
+
+       <!-- ko ifnot: IsSystem -->
+       <a data-bind="click: drilldown, attr : { title: Text }">
+           <span class="label label-default" data-bind="css: StatusClass, text: Text"></span>
+       </a>
+       <!-- /ko -->
    </li>
 
 </script>
@@ -54,8 +62,8 @@
             <span class="app-item-status" data-bind="css: AppStatusTextClass"><small data-bind="text: AppStatusText"></small>
 
                 <span class="pull-right">
-                    <button class="btn btn-xs btn-link" type="button" title="Edit Application" data-bind="click: drilldown"><span class="glyphicon glyphicon-dashboard"></span></button>
-                    <button class="btn btn-xs btn-link" type="button" title="Drilldown Application" data-bind="click: edit"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-xs btn-link" type="button" title="Drilldown Application" data-bind="click: drilldown"><span class="glyphicon glyphicon-dashboard"></span></button>
+                    <button class="btn btn-xs btn-link" type="button" title="Edit Application" data-bind="click: edit"><span class="glyphicon glyphicon-pencil"></span></button>
 
 
                 </span>

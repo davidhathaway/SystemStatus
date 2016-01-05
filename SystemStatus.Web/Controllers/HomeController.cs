@@ -32,9 +32,16 @@ namespace SystemStatus.Web.Controllers
             {
                 system.DrillDownUrl = Url.Action("Index", "System", new { id = system.SystemGroupID });
 
-                foreach (var sub in system.SubSystems)
+                foreach (var status in system.SubSystems)
                 {
-                    sub.DrillDownUrl = Url.Action("Index", "System", new { id = sub.ID });
+                    if (status.IsSystem)
+                    {
+                        status.DrillDownUrl = Url.Action("Index", "System", new { id = status.ID });
+                    }
+                    else
+                    {
+                        status.DrillDownUrl = Url.Action("DrillDownDialog", "System", new { id = status.ID });
+                    }
                 }
             }
 

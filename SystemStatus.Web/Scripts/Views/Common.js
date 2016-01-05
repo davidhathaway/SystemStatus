@@ -79,6 +79,28 @@ var AppViewKoModel = (function () {
             if (match) {
                 match.update(model);
             }
+            var systems = this.Systems();
+            var appFoundInSubSystems = false;
+            var appInSubSystems = null;
+            for (var sys = 0; sys < systems.length; sys++) {
+                var subsystems = systems[sys].SubSystems();
+                for (var subsys = 0; subsys < subsystems.length; subsys++) {
+                    var subSystem = subsystems[subsys];
+                    var id = subSystem.ID();
+                    var isApp = !subSystem.IsSystem();
+                    if (isApp && id == model.AppID) {
+                        appFoundInSubSystems = true;
+                        appInSubSystems = subSystem;
+                        break;
+                    }
+                }
+                if (appFoundInSubSystems) {
+                    break;
+                }
+            }
+            if (appFoundInSubSystems) {
+                appInSubSystems.update(model); //will update graph
+            }
         }
     };
     AppViewKoModel.prototype.CreateSubSystem = function () {
@@ -254,33 +276,28 @@ var AppStatusKoModel = (function () {
     };
     AppStatusKoModel.prototype.drilldown = function () {
         var _this = this;
+        var self = this;
         if (!this.Loading) {
             this.Loading = true;
             //setup dlg
             var drillDownSection = $("#app-drilldown-section");
             var url = drillDownSection.data("url");
-            var data = { id: this.AppID };
+            var data = { id: self.AppID };
             $("#app-drilldown-section").empty();
             $("#app-drilldown-section").load(url, data, function () {
                 _this.Loading = false;
-                $("#app-drilldown-section").data("AppStatusKoModel", _this);
+                $("#app-drilldown-section").data("AppStatusKoModel", self);
                 $("#app-drilldown-chart").hide();
                 var dlg = $("#app-drilldown-modal");
                 dlg.modal({ show: true });
-                //hook up form to get status of specific hook (first selected).
-                $("#app-drilldown-eventHook").change(function () {
-                    //load
-                    _this.loadDrillDownContent();
-                });
-                _this.loadDrillDownContent();
+                self.loadDrillDownContent();
             });
         }
     };
     AppStatusKoModel.prototype.loadDrillDownContent = function () {
         var _this = this;
-        var selectedEventHook = $("#app-drilldown-eventHook").val();
         var form = $("#app-drilldown-form");
-        var url = form.attr("action") + "/" + selectedEventHook;
+        var url = form.attr("action");
         //get data.
         //$("#app-drilldown-chart").hide();
         //$("#app-drilldown-chart").empty();
@@ -506,11 +523,13 @@ var SystemStatusKoModel = (function () {
 var SubSystemKoModel = (function () {
     function SubSystemKoModel(app, model) {
         var _this = this;
+        this.Loading = false;
         this.ID = ko.observable(model.ID);
         this.IsSystem = ko.observable(model.IsSystem);
         this.AppStatus = ko.observable(model.AppStatus);
         this.DrillDownUrl = ko.observable(model.DrillDownUrl);
         this.Text = ko.observable(model.Text);
+        this.AppEvents = ko.observableArray([]);
         this.StatusClass = ko.computed(function () {
             var statusClass = "app-status-error";
             switch (_this.AppStatus()) {
@@ -533,6 +552,97 @@ var SubSystemKoModel = (function () {
             return statusClass;
         }, this);
     }
+    SubSystemKoModel.prototype.getAppModel = function () {
+        return $("#app-drilldown-section").data("AppStatusKoModel");
+    };
+    SubSystemKoModel.prototype.update = function (model) {
+        //update app status
+        this.AppStatus(model.LastAppStatus);
+        //update graph if visible
+        var koModel = this.getAppModel();
+        if (koModel && koModel === this) {
+            this.loadDrillDownContent();
+        }
+    };
+    SubSystemKoModel.prototype.drilldown = function () {
+        var _this = this;
+        var self = this;
+        if (!this.Loading) {
+            this.Loading = true;
+            //setup dlg
+            var drillDownSection = $("#app-drilldown-section");
+            var url = drillDownSection.data("url");
+            var data = { id: self.ID };
+            $("#app-drilldown-section").empty();
+            $("#app-drilldown-section").load(url, data, function () {
+                _this.Loading = false;
+                $("#app-drilldown-section").data("AppStatusKoModel", self);
+                $("#app-drilldown-chart").hide();
+                var dlg = $("#app-drilldown-modal");
+                dlg.modal({ show: true });
+                self.loadDrillDownContent();
+            });
+        }
+    };
+    SubSystemKoModel.prototype.loadDrillDownContent = function () {
+        var _this = this;
+        var form = $("#app-drilldown-form");
+        var url = form.attr("action");
+        //get data.
+        //$("#app-drilldown-chart").hide();
+        //$("#app-drilldown-chart").empty();
+        $.getJSON(url, function (outdata, textStatus, jqXHR) {
+            if (outdata.Events && outdata.Events.length) {
+                _this.loadChart(outdata.Events, outdata.MinValue, outdata.MaxValue);
+                _this.loadTable(outdata);
+            }
+        });
+    };
+    SubSystemKoModel.prototype.loadChart = function (events, min, max) {
+        if (!events || !events.length || events.length == 0)
+            return;
+        this.CurrentChartData = [];
+        var appEvents = [];
+        for (var i = 0; i < events.length; i++) {
+            if (events[i].Value != null) {
+                var time = new Date(events[i].EventTime).getTime();
+                var value = events[i].Value;
+                var row = [time, value];
+                this.CurrentChartData.push(row);
+            }
+            appEvents.push(new AppEventKoModel(events[i]));
+        }
+        this.AppEvents(appEvents);
+        if (this.CurrentChartData.length > 0) {
+            var placeholder = $("#app-drilldown-chart");
+            var series = [{
+                    data: this.CurrentChartData,
+                    lines: {
+                        fill: true
+                    }
+                }];
+            this.Plot = $.plot(placeholder, series, {
+                xaxis: {
+                    mode: "time"
+                },
+                yaxis: {
+                    min: min,
+                    max: max
+                },
+                legend: {
+                    show: true
+                }
+            });
+            //tabulate data.
+            $("#app-drilldown-chart").show();
+        }
+    };
+    SubSystemKoModel.prototype.loadTable = function (data) {
+        //set AppEvents
+        var container = document.getElementById("app-drilldown-table");
+        ko.cleanNode(container);
+        ko.applyBindings(this, container);
+    };
     return SubSystemKoModel;
 })();
 //# sourceMappingURL=Common.js.map

@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body" id="app-drilldown-modal-body">
 
-                @using (Html.BeginRouteForm("DefaultApiWithAction", new { controller = "AppEventHook", action = "DrillDown", httproute = "true" }, FormMethod.Post, new { @class = "form", id = "app-drilldown-form" }))
+                @using (Html.BeginRouteForm("DefaultApiWithAction", new { controller = "App", action = "DrillDown", id=Model.AppID, httproute = "true" }, FormMethod.Post, new { @class = "form", id = "app-drilldown-form" }))
                 {
                     <fieldset>
                         <legend>App Drilldown - Form</legend>

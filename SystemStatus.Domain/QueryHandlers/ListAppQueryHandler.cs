@@ -13,6 +13,9 @@ namespace SystemStatus.Domain.QueryHandlers
         {
             using (var context = new SystemStatusModel())
             {
+                context.Configuration.ProxyCreationEnabled = false;
+                context.Configuration.LazyLoadingEnabled = false;
+
                 var appQry = context.Apps.AsNoTracking().AsQueryable();
 
                 if (query.AppID.HasValue)

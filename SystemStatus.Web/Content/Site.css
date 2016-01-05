@@ -188,7 +188,9 @@ legend{
     padding:5px;
     width:100%;
     border-top:1px solid white;
-    height:40px;
+    min-height:40px;
+    overflow-y:auto;
+    max-height:100px;
 
 }
 .subsystem-status-text .btn-link

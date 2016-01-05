@@ -156,6 +156,36 @@ class AppViewKoModel {
             if (match) {
                 match.update(model);
             }
+
+            var systems = this.Systems();
+            var appFoundInSubSystems = false;
+            var appInSubSystems = null;
+            for (var sys = 0; sys < systems.length; sys++)
+            {
+                var subsystems = systems[sys].SubSystems();
+                for (var subsys = 0; subsys < subsystems.length; subsys++)
+                {
+                    var subSystem = subsystems[subsys];
+                    var id = subSystem.ID();
+                    var isApp = !subSystem.IsSystem();
+                    if (isApp && id == model.AppID)
+                    {
+                        appFoundInSubSystems = true;
+                        appInSubSystems = subSystem;
+                        break;
+                    }
+                }
+
+                if (appFoundInSubSystems)
+                {
+                    break;
+                }
+            }
+
+            if (appFoundInSubSystems)
+            {
+                appInSubSystems.update(model);//will update graph
+            }
         }
     }
 
@@ -373,56 +403,37 @@ class AppStatusKoModel {
 
         if (koModel && koModel === this) {
             this.loadDrillDownContent();
- 
-            //var time = new Date(model.LastEventTime).getTime();
-            //var value = model.LastEventValue;
-            //var newArray = [[time, value]];
-            //this.CurrentChartData = newArray.concat(this.CurrentChartData);
-
-            //var series = [{
-            //    data: this.CurrentChartData,
-            //    lines: {
-            //        fill: true
-            //    }
-            //}];
-
-            //this.Plot.setData(series);
-            //this.Plot.draw();
         }
     }
 
     drilldown() {
+
+        var self = this;
+
         if (!this.Loading) {
             this.Loading = true;
             //setup dlg
             var drillDownSection = $("#app-drilldown-section");
             var url = <any>drillDownSection.data("url");
-            var data = { id: this.AppID };
+            var data = { id: self.AppID };
 
             $("#app-drilldown-section").empty();
             $("#app-drilldown-section").load(url, data, () => {
                 this.Loading = false;
-                $("#app-drilldown-section").data("AppStatusKoModel", this);
+                $("#app-drilldown-section").data("AppStatusKoModel", self);
                 $("#app-drilldown-chart").hide();
                 var dlg = $("#app-drilldown-modal");
                 dlg.modal({ show: true });
-
-                //hook up form to get status of specific hook (first selected).
-                $("#app-drilldown-eventHook").change(() => {
-                    //load
-                    this.loadDrillDownContent();
-                });
-
-                this.loadDrillDownContent();
+                self.loadDrillDownContent();
             });
 
         }
     }
 
     loadDrillDownContent() {
-        var selectedEventHook = $("#app-drilldown-eventHook").val();
+      
         var form = $("#app-drilldown-form");
-        var url = form.attr("action") + "/" + selectedEventHook;
+        var url = form.attr("action");
        
         //get data.
         //$("#app-drilldown-chart").hide();
@@ -733,9 +744,15 @@ class SubSystemKoModel
     public DrillDownUrl: KnockoutObservable<string>;
     public Text: KnockoutObservable<string>;
     public StatusClass: KnockoutComputed<string>;
+    public Plot: any;
+    public CurrentChartData: any;
+    public Loading: boolean;
+    public AppEvents: KnockoutObservableArray<AppEventKoModel>;
 
     constructor(app: SystemStatusKoModel, model: SubSystemViewModel)
     {
+        this.Loading = false;
+
         this.ID = ko.observable(model.ID);
 
         this.IsSystem = ko.observable(model.IsSystem);
@@ -745,6 +762,8 @@ class SubSystemKoModel
         this.DrillDownUrl = ko.observable(model.DrillDownUrl);
 
         this.Text = ko.observable(model.Text);
+
+        this.AppEvents = ko.observableArray([]);
 
         this.StatusClass = ko.computed(() =>
         {
@@ -770,5 +789,120 @@ class SubSystemKoModel
             return statusClass;
         }, this);
    
+    }
+
+    getAppModel(): any {
+        return $("#app-drilldown-section").data("AppStatusKoModel");
+    }
+
+    update(model: AppStatusViewModel)
+    {
+        //update app status
+        this.AppStatus(model.LastAppStatus); 
+
+        //update graph if visible
+        var koModel = this.getAppModel();
+
+        if (koModel && koModel === this) {
+            this.loadDrillDownContent();
+        }
+    }
+
+    drilldown() {
+
+        var self = this;
+
+        if (!this.Loading) {
+            this.Loading = true;
+            //setup dlg
+            var drillDownSection = $("#app-drilldown-section");
+            var url = <any>drillDownSection.data("url");
+            var data = { id: self.ID };
+
+            $("#app-drilldown-section").empty();
+            $("#app-drilldown-section").load(url, data, () => {
+                this.Loading = false;
+                $("#app-drilldown-section").data("AppStatusKoModel", self);
+                $("#app-drilldown-chart").hide();
+                var dlg = $("#app-drilldown-modal");
+                dlg.modal({ show: true });
+                self.loadDrillDownContent();
+            });
+
+        }
+    }
+
+    loadDrillDownContent() {
+
+        var form = $("#app-drilldown-form");
+        var url = form.attr("action");
+       
+        //get data.
+        //$("#app-drilldown-chart").hide();
+        //$("#app-drilldown-chart").empty();
+        $.getJSON(url, (outdata, textStatus, jqXHR) => {
+            if (outdata.Events && outdata.Events.length) {
+                this.loadChart(outdata.Events, outdata.MinValue, outdata.MaxValue);
+                this.loadTable(outdata);
+            }
+        });
+    }
+
+    loadChart(events, min: number, max: number) {
+        if (!events || !events.length || events.length == 0)
+            return;
+
+        this.CurrentChartData = [];
+
+        var appEvents = [];
+
+        for (var i = 0; i < events.length; i++) {
+            if (events[i].Value != null) {
+                var time = new Date(events[i].EventTime).getTime();
+                var value = events[i].Value;
+                var row = [time, value];
+                this.CurrentChartData.push(row);
+            }
+            appEvents.push(new AppEventKoModel(events[i]));
+        }
+
+        this.AppEvents(appEvents);
+
+        if (this.CurrentChartData.length > 0) {
+
+            var placeholder = $("#app-drilldown-chart");
+
+            var series = [{
+                data: this.CurrentChartData,
+                lines: {
+                    fill: true
+                }
+            }];
+
+            this.Plot = $.plot(placeholder, series,
+                {
+                    xaxis:
+                    {
+                        mode: "time"
+                    },
+                    yaxis: {
+                        min: min,
+                        max: max
+                    },
+                    legend: {
+                        show: true
+                    }
+                });
+
+            //tabulate data.
+            $("#app-drilldown-chart").show();
+        }
+    }
+
+    loadTable(data) {
+        //set AppEvents
+        var container = document.getElementById("app-drilldown-table");
+        ko.cleanNode(container);
+        ko.applyBindings(this, container);
     }
 }

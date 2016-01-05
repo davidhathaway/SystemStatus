@@ -109,3 +109,123 @@
 2016-01-05 15:06:37.0348|INFO|SystemStatus.Web.WebApiApplication|Started
 2016-01-05 15:18:20.3948|INFO|SystemStatus.Web.WebApiApplication|Started
 2016-01-05 15:18:31.4622|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 15:56:58.7820|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 15:58:03.8470|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 15:58:13.6280|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:02:47.3860|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:03:50.3860|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:03:55.7720|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:04:14.7430|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:04:24.8050|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:04:35.0320|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:04:45.2930|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:04:55.4440|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:05:05.6440|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:05:15.8370|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:05:26.0010|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:05:36.1630|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:07:39.7360|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:10:30.2170|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:10:40.3050|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:10:50.4600|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:11:01.9530|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:11:12.1400|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:15:36.6144|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:15:49.9304|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:17:32.5914|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:17:45.9854|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:25:31.0904|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:25:44.6494|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:26:36.2334|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:26:46.7614|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:26:51.9744|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:27:02.3294|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:27:12.5634|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:27:22.9674|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:27:33.4164|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:27:43.5094|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:27:53.5774|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:28:03.6424|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:28:13.7664|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:28:23.8914|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:28:34.3874|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:28:44.5814|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:28:54.7504|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:29:04.8874|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:29:15.0114|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:29:25.2594|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:30:16.5184|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:30:27.0724|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:30:32.7764|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:30:43.0784|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:30:53.3094|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:31:03.4484|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:31:13.6034|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:31:23.8104|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:31:34.0454|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:31:45.3584|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:31:55.5454|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:32:06.2134|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:32:16.4604|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:32:26.7604|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:32:36.8984|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:32:47.0244|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:32:57.1814|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:33:07.3554|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:33:17.4984|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:33:27.6314|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:33:37.8094|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:33:47.9834|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:33:58.3454|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:34:08.4614|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:34:18.6444|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:34:28.7614|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:34:38.8984|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:34:49.0554|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:34:59.2014|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:35:09.3084|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:42:41.5764|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:42:52.4224|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:42:58.3804|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:43:08.6994|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:43:52.7484|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:44:03.0934|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:44:13.3284|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:44:23.5784|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:44:33.8664|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:44:44.0064|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:44:54.2104|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:45:04.4334|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:45:14.7174|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:45:24.8534|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:45:35.1134|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:45:45.2894|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:45:55.4454|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:46:06.7924|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:46:16.9064|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:46:27.1984|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:46:37.4434|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:46:47.8334|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:46:58.7164|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:47:08.8974|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:47:19.3474|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:47:35.0904|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:47:46.2264|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:47:51.9744|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:48:02.2894|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:56:47.4304|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:56:58.1184|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:57:04.1574|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:57:14.5534|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:57:45.8014|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:58:45.1364|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:58:56.9824|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-05 16:59:02.6884|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:59:12.9354|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:59:44.8124|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 16:59:56.3514|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 17:00:06.5494|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 17:00:16.6794|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 17:00:27.0464|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 17:00:37.1764|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-05 17:00:48.2604|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub

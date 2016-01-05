@@ -27,7 +27,7 @@ namespace SystemStatus.Domain.QueryHandlers
                         AppID = entity.AppID,
                         AgentName = entity.AgentName,
                         AppEventHookTypeID = entity.AppEventHookTypeID,
-                        Command = entity.Command,
+                        Command = entity.AppEventHookTypeID == 2 ? entity.HttpUrl : entity.Command,
                         Description = entity.Description,
                         FastStatusLimit = entity.FastStatusLimit,
                         NormalStatusLimit = entity.NormalStatusLimit,
