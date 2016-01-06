@@ -249,3 +249,11 @@
 2016-01-06 10:02:26.0027|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
 2016-01-06 10:02:36.2987|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
 2016-01-06 10:02:46.5327|INFO|SystemStatus.Web.Hubs.AppEventHub|Updated Hub
+2016-01-06 15:38:39.9654|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-06 15:38:54.4209|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-06 16:13:18.2089|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-06 16:13:31.0892|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-06 16:17:37.0088|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-06 16:17:49.3740|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-06 16:19:48.2969|INFO|SystemStatus.Web.WebApiApplication|Started
+2016-01-06 16:20:01.1602|INFO|SystemStatus.Web.WebApiApplication|Started

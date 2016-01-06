@@ -116,14 +116,22 @@ legend{
 
 .app-status-error
 {
-    background-color: #ECF0F1;
+     background-color: #E74C3C;
+
 }
+
 .app-status-error-text{
+   
+     background-color: #C0392B;
+}
+
+
+.app-status-none{
+        background-color: #ECF0F1;
+}
+.app-status-none-text{
     background-color: #BDC3C7;
 }
-
-
-
 
 .app-status-fast{
     background-color: #2ECC71;
@@ -146,12 +154,7 @@ legend{
     background-color: #F39C12;
 }
 
-.app-status-none{
-     background-color: #E74C3C;
-}
-.app-status-none-text{
-    background-color: #C0392B;
-}
+
 
 .app-item-status button.btn-link{
     color:white;

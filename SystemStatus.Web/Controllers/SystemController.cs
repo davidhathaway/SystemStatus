@@ -42,6 +42,7 @@ namespace SystemStatus.Web.Controllers
             var systemQuery = new SystemStatusQuery() { ParentGroupID = id };
             model.Children = this.queryProcessor.Process(systemQuery);
 
+            //set drilldown urls
             foreach (var item in model.Children)
             {
                 item.DrillDownUrl = Url.Action("Index", "System", new { id = item.SystemGroupID });

@@ -38,6 +38,12 @@ namespace SystemStatus.Domain.QueryHandlers
                     SubSystems = GetSubSystems(x).ToArray()
                 }).ToList();
 
+                //set is down
+                foreach (var item in model)
+                {
+                    item.IsDown = item.SubSystems.Any(x => x.IsSystemCritical && x.AppStatus == AppStatus.None);
+                }
+ 
                 return model;
             }
         }
@@ -58,7 +64,8 @@ namespace SystemStatus.Domain.QueryHandlers
                 ID = x.App.AppID,
                 AppStatus = x.LastEvent == null ? AppStatus.None : x.LastEvent.AppStatus,
                 IsSystem = false,
-                Text = x.App.Name
+                Text = x.App.Name,
+                IsSystemCritical = x.App.IsSystemCritical
             });
 
             results.AddRange(appStatus);
@@ -72,7 +79,8 @@ namespace SystemStatus.Domain.QueryHandlers
                 AppStatus = x.LastEvent == null ? AppStatus.None : (x.LastEvent.IsDown ? AppStatus.None : AppStatus.Fast),
                 ID = x.System.SystemGroupID,
                 IsSystem = true,
-                Text = x.System.Name
+                Text = x.System.Name,
+                IsSystemCritical = x.System.IsSystemCritical
             });
 
             results.AddRange(systemStatus);

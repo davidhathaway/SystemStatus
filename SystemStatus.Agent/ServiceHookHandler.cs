@@ -25,10 +25,26 @@ namespace SystemStatus.Agent
 
         protected override async Task<AppEvent> OnHandle(App app)
         {
-
            return await Task.Run<AppEvent>(() => {
 
-                ServiceController sc = new ServiceController(app.Command);
+               ServiceController sc = null;
+   
+               string splitWith = @"\";
+
+               if (app.Command.Contains(splitWith))
+               {
+                   var args = app.Command.Split(new string[] { splitWith }, StringSplitOptions.RemoveEmptyEntries);
+                   if(args.Length == 2)
+                   {
+                       sc = new ServiceController(args[1], args[0]);
+                   }
+               }
+               else
+               {
+                   sc = new ServiceController(app.Command);
+               }
+
+                
                 var message = "Service is " + Enum.GetName(typeof(ServiceControllerStatus), sc.Status);
                 var appEvent = this.CreateFromApp(app, null);
                 appEvent.Message = message;

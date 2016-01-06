@@ -203,10 +203,10 @@ var AppStatusKoModel = (function () {
             }
         }, this);
         this.AppStatusClass = ko.computed(function () {
-            var statusClass = "app-status-error";
+            var statusClass = "app-status-none";
             switch (_this.LastAppStatus()) {
                 case 0:
-                    statusClass = "app-status-none";
+                    statusClass = "app-status-error";
                     break;
                 case 1:
                     statusClass = "app-status-fast";
@@ -366,12 +366,12 @@ var AppEventKoModel = (function () {
         this.Value = appEvent.Value;
         this.AppStatusText = ko.computed(function () {
             switch (_this.AppStatus) {
-                case 0: return "None";
+                case 0: return "Error";
                 case 1: return "Fast";
                 case 2: return "Normal";
                 case 3: return "Slow";
                 case 4: return "Running";
-                default: return "Error";
+                default: return "None";
             }
         }, this);
     }
@@ -530,11 +530,12 @@ var SubSystemKoModel = (function () {
         this.DrillDownUrl = ko.observable(model.DrillDownUrl);
         this.Text = ko.observable(model.Text);
         this.AppEvents = ko.observableArray([]);
+        this.IsSystemCritical = ko.observable(model.IsSystemCritical);
         this.StatusClass = ko.computed(function () {
-            var statusClass = "app-status-error";
+            var statusClass = "app-status-none";
             switch (_this.AppStatus()) {
                 case 0:
-                    statusClass = "app-status-none";
+                    statusClass = "app-status-error";
                     break;
                 case 1:
                     statusClass = "app-status-fast";

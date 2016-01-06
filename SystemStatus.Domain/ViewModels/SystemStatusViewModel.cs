@@ -23,6 +23,7 @@ namespace SystemStatus.Domain.ViewModels
         public int ID { get; set; }
         public string Text { get; set; }
         public bool IsSystem { get; set; }
+        public bool IsSystemCritical { get; set; }
         public AppStatus AppStatus { get; set; }
         public string DrillDownUrl { get; set; }
     }

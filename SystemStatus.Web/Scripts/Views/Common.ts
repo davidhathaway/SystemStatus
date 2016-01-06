@@ -18,6 +18,7 @@ interface SubSystemViewModel
      AppStatus: number;
      IsSystem: boolean;
      DrillDownUrl: string;
+     IsSystemCritical: boolean;
 }
 
 interface SystemStatusViewModel {
@@ -320,10 +321,10 @@ class AppStatusKoModel {
         }, this);
 
         this.AppStatusClass = ko.computed(() => {
-            var statusClass = "app-status-error";
+            var statusClass = "app-status-none";
             switch (this.LastAppStatus()) {
                 case 0:
-                    statusClass = "app-status-none";
+                    statusClass = "app-status-error";
                     break;
                 case 1:
                     statusClass = "app-status-fast";
@@ -525,12 +526,12 @@ class AppEventKoModel {
 
         this.AppStatusText = ko.computed(() => {
             switch (this.AppStatus) {
-                case 0: return "None";
+                case 0: return "Error";
                 case 1: return "Fast";
                 case 2: return "Normal";
                 case 3: return "Slow";
                 case 4: return "Running";
-                default: return "Error"
+                default: return "None"
             }
         }, this);
 
@@ -738,6 +739,7 @@ class SystemStatusKoModel {
 
 class SubSystemKoModel
 {
+    public IsSystemCritical: KnockoutObservable<boolean>;
     public ID: KnockoutObservable<number>;
     public IsSystem: KnockoutObservable<boolean>;
     public AppStatus: KnockoutObservable<number>;
@@ -765,13 +767,15 @@ class SubSystemKoModel
 
         this.AppEvents = ko.observableArray([]);
 
+        this.IsSystemCritical = ko.observable(model.IsSystemCritical);
+
         this.StatusClass = ko.computed(() =>
         {
-            var statusClass = "app-status-error";
+            var statusClass = "app-status-none";
 
             switch (this.AppStatus()) {
                 case 0:
-                    statusClass = "app-status-none";
+                    statusClass = "app-status-error";
                     break;
                 case 1:
                     statusClass = "app-status-fast";
