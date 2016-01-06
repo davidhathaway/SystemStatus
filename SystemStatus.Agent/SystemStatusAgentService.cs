@@ -26,7 +26,7 @@ namespace SystemStatus.Agent.WindowsService
             InitializeComponent();
 
             this.EventLog.Source = "System Status Agent";
-            this.EventLog.Log = "System Status Agent";
+            this.EventLog.Log = "";
 
 
 
@@ -85,7 +85,12 @@ namespace SystemStatus.Agent.WindowsService
                     var handlersToString = this.Handlers.Select(x => x.ToString()).ToArray();
                     var logMsg = string.Format("Starting Agent Worker: Interval {0}, Url {1}, Handlers: {2}", Interval, Url, string.Join(",", handlersToString));
                     Log(logMsg);
-                    _worker = new AgentWorker(Interval, Url, Handlers, Environment.MachineName);
+                    _worker = new AgentWorker(Interval, Url, Handlers, Environment.MachineName,
+                        (ex)=> 
+                        {
+                            Log(ex);
+                        }
+                    );
                 }
                 _worker.Start();
                 Log("Worker Started.");
@@ -95,8 +100,6 @@ namespace SystemStatus.Agent.WindowsService
                 Log(ex);
                 this.Stop();
             }
-          
-
         }
 
         internal void DoStop()

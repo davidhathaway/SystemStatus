@@ -19,10 +19,13 @@ namespace SystemStatus.Agent
 
         public string MachineName { get; set; }
 
-        public AgentWorker(int interval, string url, HookHandlerTypes[] handlers, string machineName) : base(interval)
+        public Action<Exception> LogErrors { get; set; }
+
+        public AgentWorker(int interval, string url, HookHandlerTypes[] handlers, string machineName, Action<Exception> logErrors) : base(interval)
         {
             this.MachineName = machineName;
             this.Url = url;
+            this.LogErrors = logErrors;
             _handlers = GetHandlers(handlers).ToArray();
         }
 
@@ -48,21 +51,29 @@ namespace SystemStatus.Agent
         private async Task DoWork()
         {
             //do work
-            var pingHooks = await GetApps();
-            foreach (var hook in pingHooks.AsParallel())
+            try
             {
-                IHookHandler handler = _handlers.FirstOrDefault(x => x.AppEventHookTypeID == hook.AppEventHookTypeID);
-                if (handler != null)
+                var pingHooks = await GetApps();
+                foreach (var hook in pingHooks.AsParallel())
                 {
-                    try
+                    IHookHandler handler = _handlers.FirstOrDefault(x => x.AppEventHookTypeID == hook.AppEventHookTypeID);
+                    if (handler != null)
                     {
-                        await RunHookAsync(hook, handler);
-                    }
-                    catch (Exception ex)
-                    {
-
+                        try
+                        {
+                            await RunHookAsync(hook, handler);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogErrors(ex);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogErrors(ex);
+                throw ex;
             }
         }
 
