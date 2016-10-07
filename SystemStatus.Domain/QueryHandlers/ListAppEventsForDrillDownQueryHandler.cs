@@ -16,7 +16,7 @@ namespace SystemStatus.Domain.QueryHandlers
             {
                 var app = db.Apps.First(x => x.AppID == query.AppID);
 
-               var events = app.Events
+                var events = db.AppEvents.Where(x => x.AppID == query.AppID)
                     .OrderByDescending(x => x.EventTime)
                     .Take(query.TopN)
                     .Select(x => new AppEventViewModel()
@@ -25,7 +25,7 @@ namespace SystemStatus.Domain.QueryHandlers
                         AppStatus = x.AppStatus,
                         EventTime = x.EventTime,
                         Message = x.Message,
-                        Value = x.Value
+                        Value = x.Value ?? (x.AppStatus == AppStatus.None ? -1 : 1)
 
                     })
                     .ToList();
@@ -38,5 +38,7 @@ namespace SystemStatus.Domain.QueryHandlers
                 return result;
             }
         }
+
+       
     }
 }

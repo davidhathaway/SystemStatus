@@ -170,7 +170,7 @@ var AppViewKoModel = (function () {
         });
     };
     return AppViewKoModel;
-})();
+}());
 var AppStatusKoModel = (function () {
     function AppStatusKoModel(app, model) {
         var _this = this;
@@ -354,7 +354,7 @@ var AppStatusKoModel = (function () {
         ko.applyBindings(this, container);
     };
     return AppStatusKoModel;
-})();
+}());
 var AppEventKoModel = (function () {
     function AppEventKoModel(appEvent) {
         var _this = this;
@@ -376,7 +376,7 @@ var AppEventKoModel = (function () {
         }, this);
     }
     return AppEventKoModel;
-})();
+}());
 var SystemAppViewKoModel = (function () {
     function SystemAppViewKoModel() {
         this.Systems = ko.observableArray([]);
@@ -477,7 +477,7 @@ var SystemAppViewKoModel = (function () {
         });
     };
     return SystemAppViewKoModel;
-})();
+}());
 var SystemStatusKoModel = (function () {
     function SystemStatusKoModel(app, model) {
         var _this = this;
@@ -519,7 +519,7 @@ var SystemStatusKoModel = (function () {
         window.open(this.DrillDownUrl);
     };
     return SystemStatusKoModel;
-})();
+}());
 var SubSystemKoModel = (function () {
     function SubSystemKoModel(app, model) {
         var _this = this;
@@ -645,5 +645,5 @@ var SubSystemKoModel = (function () {
         ko.applyBindings(this, container);
     };
     return SubSystemKoModel;
-})();
+}());
 //# sourceMappingURL=Common.js.map

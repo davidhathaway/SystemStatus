@@ -39,19 +39,31 @@ namespace SystemStatus.Domain.Commands
                 {
                     //if the app is critical then update the system status
                     var system = app.SystemGroup;
-                    var systemApps = system
+
+                    var systemApps1 = system
                         .Apps
                         .Where(x => x.IsSystemCritical)
-                        .Select(x => new
-                        {
-                            App = x,
-                            LastEvent = x.Events.OrderByDescending(e => e.EventTime).FirstOrDefault()
-                        }).ToList();
+                        .Select(x =>x).ToList();
 
-                    var isDown = systemApps.Any(x => x.LastEvent!=null && x.LastEvent.AppStatus == AppStatus.None);
+                    var appIDs = systemApps1.Select(x => x.AppID).ToArray();
+
+                    var systemAppEvents = db.AppEvents
+                        .Where(x => appIDs.Contains(x.AppID))
+                        .GroupBy(x => x.AppID)
+                        .Select(x => new { LastEvent = x.OrderByDescending(o=>o.EventTime).FirstOrDefault(), Key = x.Key }).ToList();
+
+
+                    var systemApps2 = from s in systemApps1
+                                      join e in systemAppEvents on s.AppID equals e.Key
+                                      select new { LastEvent = e.LastEvent, App = s };
+
+                    var isDown = systemApps2.Any(x => x.LastEvent!=null && x.LastEvent.AppStatus == AppStatus.None);
                     var events = UpdateSystemEvent(system, isDown);
-                    db.SystemEvents.AddRange(events);
-                    db.SaveChanges();
+                    if (events.Count() > 0)
+                    {
+                        db.SystemEvents.AddRange(events);
+                        db.SaveChanges();
+                    }
                 }
             }
         }

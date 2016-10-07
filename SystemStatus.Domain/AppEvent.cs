@@ -14,7 +14,6 @@ namespace SystemStatus.Domain
         public virtual int AppID { get; set; }
         public virtual AppStatus AppStatus { get; set; }
         public decimal? Value { get; set; }
-  
 
         public AppEvent()
         {

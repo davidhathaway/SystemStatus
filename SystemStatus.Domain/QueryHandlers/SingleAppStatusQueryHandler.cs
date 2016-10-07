@@ -30,7 +30,10 @@ namespace SystemStatus.Domain.QueryHandlers
                     Name = x.App.Name,
                     LastAppStatus = x.Last10Events.Count() > 0 ? x.Last10Events.First().AppStatus : AppStatus.None,
                     LastEventTime = x.Last10Events.Count() > 0 ? x.Last10Events.First().EventTime : DateTime.MinValue,
-                    LastEventValue = x.Last10Events.Count()>0 ? x.Last10Events.First().Value : null
+                    LastEventValue = x.Last10Events.Count()>0 ? x.Last10Events.First().Value : null,
+                    SystemGroupID = x.App.SystemGroupID,
+                    AgentName = x.App.AgentName,
+                    Description = x.App.Description
                     
                 }).ToList();
 

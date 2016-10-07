@@ -25,11 +25,6 @@ namespace SystemStatus.Agent.WindowsService
         {
             InitializeComponent();
 
-            this.EventLog.Source = "System Status Agent";
-            this.EventLog.Log = "";
-
-
-
             //create event log source
             ((System.ComponentModel.ISupportInitialize)(this.EventLog)).BeginInit();
             if (!EventLog.SourceExists(this.EventLog.Source))
