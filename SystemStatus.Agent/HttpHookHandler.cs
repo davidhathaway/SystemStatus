@@ -34,13 +34,9 @@ namespace SystemStatus.Agent
                 sw.Stop();
                 AppEvent appEvent = this.CreateFromApp(app, response.IsSuccessStatusCode ? (decimal?)sw.ElapsedMilliseconds : null);
 
-                if (response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode)
                 {
-                    appEvent.Message = string.Format("Elapsed Milliseconds: {0}", sw.ElapsedMilliseconds);
-                }
-                else
-                {
-                    appEvent.Message = string.Format("Error: {0}", Enum.GetName(response.StatusCode.GetType(), response.StatusCode));
+                    appEvent.Message = new AppEventMessage() { Value = string.Format("Error: {0}", Enum.GetName(response.StatusCode.GetType(), response.StatusCode)) };
                 }
 
                 return appEvent;
@@ -50,14 +46,14 @@ namespace SystemStatus.Agent
             {
                 sw.Stop();
                 AppEvent appEvent = this.CreateFromApp(app, null);
-                appEvent.Message = string.Format("Http Exception: {0}", httpEx.ToString());
+                appEvent.Message = new AppEventMessage() { Value = string.Format("Http Exception: {0}", httpEx.ToString()) };
                 return appEvent;
             }
             catch(Exception ex)
             {
                 sw.Stop();
                 AppEvent appEvent = this.CreateFromApp(app, null);
-                appEvent.Message = string.Format("Exception: {0}", ex.ToString());
+                appEvent.Message = new AppEventMessage() { Value = string.Format("Exception: {0}", ex.ToString()) };
                 return appEvent;
             }
 

@@ -39,13 +39,12 @@ namespace SystemStatus.Agent
 
             AppEvent appEvent = this.CreateFromApp(app, reply.Status == IPStatus.Success ? (decimal?)reply.RoundtripTime : null);
 
-            if (reply.Status == IPStatus.Success)
+            if (reply.Status != IPStatus.Success)
             {
-                appEvent.Message = string.Format("RoundtripTime (ms): {0}", reply.RoundtripTime);
-            }
-            else
-            {
-                appEvent.Message = string.Format("Error: {0}, RoundtripTime (ms): {1}", Enum.GetName(typeof(IPStatus), reply.Status), reply.RoundtripTime);
+                appEvent.Message = new AppEventMessage()
+                {
+                    Value = string.Format("Error: {0}, RoundtripTime (ms): {1}", Enum.GetName(typeof(IPStatus), reply.Status), reply.RoundtripTime)
+                };
             }
 
             return appEvent;

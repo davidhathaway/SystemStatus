@@ -38,14 +38,13 @@ namespace SystemStatus.Agent
                 }
 
                 AppEvent appEvent = this.CreateFromApp(app, (decimal?)sw.ElapsedMilliseconds);
-                appEvent.Message = string.Format("Elapsed Milliseconds: {0}", sw.ElapsedMilliseconds);
                 return appEvent;
             }
             catch (Exception ex)
             {
                 sw.Stop();
                 AppEvent appEvent = this.CreateFromApp(app, null);
-                appEvent.Message = string.Format("Exception: {0}", ex.ToString());
+                appEvent.Message = new AppEventMessage() { Value = string.Format("Exception: {0}", ex.ToString()) };
                 return appEvent;
             }
         }

@@ -28,7 +28,21 @@ namespace SystemStatus.Domain.Commands
                 appEvent.AppID = command.Model.AppID;
                 appEvent.AppStatus = command.Model.AppStatus;
                 appEvent.EventTime = command.Model.EventTime;
-                appEvent.Message = command.Model.Message;
+
+                if (command.Model.Message!=null)
+                {
+                    //has message been added before
+                    var currentMsg = db.AppEventMessages.FirstOrDefault(x => x.Value == command.Model.Message);
+                    if (currentMsg == null)
+                    {
+                        appEvent.Message = new AppEventMessage() { Value = command.Model.Message };
+                    }
+                    else
+                    {
+                        appEvent.Message = currentMsg;
+                    }
+                }
+
                 appEvent.Value = command.Model.Value;
                 db.AppEvents.Add(appEvent);
                 db.SaveChanges();

@@ -14,10 +14,16 @@ namespace SystemStatus.Domain
     public class SystemStatusModel : DbContext
     {
         public DbSet<SystemEvent> SystemEvents { get; set; }
+
         public DbSet<SystemGroup> Systems { get; set; }
+
         public DbSet<App> Apps { get; set; }
+
         public DbSet<AppEvent> AppEvents { get; set; }
+
         public DbSet<AppEventHookType> AppEventHookTypes { get; set; }
+
+        public DbSet<AppEventMessage> AppEventMessages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

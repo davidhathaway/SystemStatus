@@ -45,9 +45,9 @@ namespace SystemStatus.Agent
                }
 
                 
-                var message = "Service is " + Enum.GetName(typeof(ServiceControllerStatus), sc.Status);
+                //var message = "Service is " + Enum.GetName(typeof(ServiceControllerStatus), sc.Status);
                 var appEvent = this.CreateFromApp(app, null);
-                appEvent.Message = message;
+                //appEvent.Message = new AppEventMessage() { Value = message };
                 appEvent.AppStatus = sc.Status == ServiceControllerStatus.Running ? AppStatus.Running : AppStatus.None;
                 return appEvent;
             

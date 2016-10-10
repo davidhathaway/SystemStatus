@@ -38,7 +38,7 @@ namespace SystemStatus.Agent
             catch (Exception ex)
             {
                 var appEvent = CreateFromApp(hook, null);
-                appEvent.Message = string.Format("Exception: {0}", ex.ToString());
+                appEvent.Message = new AppEventMessage() { Value = string.Format("Exception: {0}", ex.ToString()) };
                 return Task.Run<AppEvent>(() => { return appEvent; });
             }
         }

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AppEvent.cs" />
+    <Compile Include="AppEventMessage.cs" />
     <Compile Include="AppStatus.cs" />
     <Compile Include="AppEventHookType.cs" />
     <Compile Include="CommandHandlers\EditAppCommandHandler.cs" />
@@ -93,6 +94,10 @@
     <Compile Include="Migrations\201512181223084_SystemEvents2.cs" />
     <Compile Include="Migrations\201512181223084_SystemEvents2.Designer.cs">
       <DependentUpon>201512181223084_SystemEvents2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610100926532_Add-AppEventMessage.cs" />
+    <Compile Include="Migrations\201610100926532_Add-AppEventMessage.Designer.cs">
+      <DependentUpon>201610100926532_Add-AppEventMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512181223084_SystemEvents2.resx">
       <DependentUpon>201512181223084_SystemEvents2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610100926532_Add-AppEventMessage.resx">
+      <DependentUpon>201610100926532_Add-AppEventMessage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

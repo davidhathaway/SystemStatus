@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SystemStatus.Domain.Queries;
 using SystemStatus.Domain.ViewModels;
+using System.Data.Entity;
 
 namespace SystemStatus.Domain.QueryHandlers
 {
@@ -16,7 +17,9 @@ namespace SystemStatus.Domain.QueryHandlers
             {
                 var app = db.Apps.First(x => x.AppID == query.AppID);
 
-                var events = db.AppEvents.Where(x => x.AppID == query.AppID)
+                var events = db.AppEvents
+                    .Include(x=>x.Message)
+                    .Where(x => x.AppID == query.AppID)
                     .OrderByDescending(x => x.EventTime)
                     .Take(query.TopN)
                     .Select(x => new AppEventViewModel()
@@ -24,9 +27,8 @@ namespace SystemStatus.Domain.QueryHandlers
                         AppEventID = x.AppEventID,
                         AppStatus = x.AppStatus,
                         EventTime = x.EventTime,
-                        Message = x.Message,
+                        Message = x.Message == null ? string.Empty : x.Message.Value,
                         Value = x.Value ?? (x.AppStatus == AppStatus.None ? -1 : 1)
-
                     })
                     .ToList();
 
